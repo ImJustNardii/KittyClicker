@@ -4,41 +4,733 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#11111b">
     <title>Mi primera web :v</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>¡Qué onda, mundo! :v</h1>
-    <p>Presiona la imagen para escuchar el sonidito.</p>
+    <div id="pantalla-carga" class="pantalla-carga">
+        <img src="loader.png" alt="" class="loader-icon">
+        <p id="texto-carga" class="texto-carga">Cargando: web | Proceso: 0%</p>
+        <div class="barra-carga"><div id="progreso-carga"></div></div>
+    </div>
 
-    <img
-        src="imagen.png"
-        alt="Imagen interactiva"
-        id="imagen"
-        tabindex="0"
-        role="button"
-        aria-label="Reproducir sonidito"
-    >
+    <aside id="tarjeta-usuario" class="tarjeta-usuario panel">
+        <button class="cerrar-mini" id="cerrar-usuario" aria-label="Cerrar">×</button>
+        <h2>¿Quién anda por aquí? :v</h2>
+        <p>Tu nombre se guardará en este navegador.</p>
+        <form id="form-usuario">
+            <input id="entrada-usuario" maxlength="24" autocomplete="nickname" placeholder="Tu user..." required>
+            <button class="boton" type="submit">Entrar</button>
+        </form>
+    </aside>
 
+    <div id="mensaje-aleatorio" class="mensaje-aleatorio" aria-live="polite"></div>
+
+    <main class="contenedor">
+        <h1>¡Qué onda, mundo! :v</h1>
+        <p class="descripcion">Presiona la imagen para escuchar el sonidito.</p>
+
+        <div class="fila-gatito">
+            <button id="boton-gato" class="boton-gato" type="button" aria-label="Reproducir sonidito">
+                <img src="imagen.png" alt="Imagen interactiva" id="imagen">
+            </button>
+
+            <button id="boton-secreto" class="icono-secreto" type="button" aria-label="Icono secreto" title="...">
+                <span aria-hidden="true">◈</span>
+            </button>
+        </div>
+
+        <div class="contador-tarjeta">
+            <p>Veces que has clickeado la imagen</p>
+            <div id="contador" aria-live="polite">0</div>
+        </div>
+
+        <div class="barra-herramientas">
+            <button id="abrir-logros" class="boton-icono" type="button" aria-label="Ver logros" title="Logros">
+                <img src="logros.png" alt="" class="imagen-icono" onerror="this.onerror=null;this.src='imagen.png'">
+            </button>
+            <button id="abrir-config" class="boton" type="button">Configuración ⚙</button>
+            <button id="reiniciar" class="boton boton-secundario" type="button">Reiniciar contador</button>
+        </div>
+
+        <p id="saludo-usuario" class="saludo-usuario"></p>
+    </main>
+
+    <section id="terminal" class="terminal panel" aria-label="Gatillo Engine" aria-hidden="true">
+        <header class="terminal-cabecera">
+            <div><span class="terminal-punto"></span><strong>Gatillo Engine</strong></div>
+            <button id="cerrar-terminal" class="cerrar-mini" aria-label="Cerrar terminal">×</button>
+        </header>
+
+        <button id="boton-nota" class="nota-comandos" type="button">🗒 Comandos</button>
+
+        <div id="lista-comandos" class="lista-comandos oculto">
+            <strong>Comandos disponibles</strong>
+            <p><code>shutdown</code> — error falso de Windows</p>
+            <p><code>imgreedy</code> — +10,000 clics</p>
+            <p><code>enemy</code> — cambia gato/perro</p>
+            <p><code>credits</code> — créditos del creador</p>
+        </div>
+
+        <div id="terminal-salida" class="terminal-salida" aria-live="polite">
+            <p>Gatillo Engine [versión 0.1]</p>
+            <p>Escribe <code>help</code> para ver los comandos.</p>
+        </div>
+
+        <form id="form-terminal" class="terminal-form">
+            <label for="entrada-comando">guest@gatillo:~$</label>
+            <input id="entrada-comando" autocomplete="off" spellcheck="false" aria-label="Comando">
+            <button class="boton" type="submit">Ejecutar</button>
+        </form>
+    </section>
+
+    <section id="panel-logros" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera">
+            <h2>Logros</h2>
+            <button class="cerrar-mini cerrar-modal" data-close="panel-logros" aria-label="Cerrar logros">×</button>
+        </header>
+        <div id="lista-logros"></div>
+    </section>
+
+    <section id="panel-config" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera">
+            <h2>Configuración</h2>
+            <button class="cerrar-mini cerrar-modal" data-close="panel-config" aria-label="Cerrar configuración">×</button>
+        </header>
+
+        <label class="ajuste">
+            <span>Animaciones</span>
+            <input id="config-anims" type="checkbox" checked>
+        </label>
+
+        <label class="ajuste">
+            <span>Sonidos</span>
+            <input id="config-sonidos" type="checkbox" checked>
+        </label>
+
+        <p class="nota-config">Los ajustes se guardan en este navegador.</p>
+    </section>
+
+    <section id="ventana-creditos" class="ventana-modal creditos panel" aria-hidden="true">
+        <button class="cerrar-mini cerrar-modal" data-close="ventana-creditos" aria-label="Cerrar créditos">×</button>
+        <h2>Developed by ImNardii</h2>
+        <img src="credits.png" alt="Imagen de créditos" id="imagen-creditos">
+    </section>
+
+    <section id="pantalla-explosion" class="pantalla-explosion" aria-hidden="true">
+        <img src="explosion.gif" alt="" id="gif-explosion">
+        <h1>Te pasaste de lanza :v</h1>
+    </section>
+
+    <section id="pantalla-shutdown" class="pantalla-shutdown" aria-hidden="true">
+        <div class="error-windows">
+            <div class="error-icono">:(</div>
+            <h1>Tu PC tuvo un problema y necesita reiniciarse.</h1>
+            <p>Es broma, tranquilo. Gatillo Engine hizo de las suyas.</p>
+            <div class="error-progreso"><div id="progreso-shutdown"></div></div>
+            <p id="texto-shutdown">Recopilando información: 0%</p>
+            <h2 id="texto-broma" class="texto-broma">Es bromilla :v</h2>
+        </div>
+    </section>
+
+    <div id="notificacion-logro" class="notificacion-logro" aria-live="polite">
+        <img src="logro-click.png" alt="" id="imagen-toast-logro">
+        <div>
+            <strong>Logro desbloqueado</strong>
+            <p id="texto-toast-logro">Empiezan los clicks.</p>
+        </div>
+    </div>
+
+    <!-- SONIDOS: gato, perro y logro -->
     <audio id="sonido" src="sonido.mp3" preload="auto"></audio>
+    <audio id="sonido-perro" src="sonido-perro.mp3" preload="auto"></audio>
+    <audio id="sonido-logro" src="logro.mp3" preload="auto"></audio>
 
     <script>
-        const imagen = document.getElementById("imagen");
-        const sonido = document.getElementById("sonido");
+    (() => {
+        const $ = id => document.getElementById(id);
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-        function reproducirSonido() {
-            sonido.currentTime = 0;
-            sonido.play();
+        const pantallaCarga = $("pantalla-carga");
+        const textoCarga = $("texto-carga");
+        const progresoCarga = $("progreso-carga");
+        const botonGato = $("boton-gato");
+        const imagen = $("imagen");
+        const contador = $("contador");
+
+        const sonido = $("sonido");
+        const sonidoPerro = $("sonido-perro");
+        const sonidoLogro = $("sonido-logro");
+
+        const botonReiniciar = $("reiniciar");
+        const pantallaExplosion = $("pantalla-explosion");
+        const terminal = $("terminal");
+        const salidaTerminal = $("terminal-salida");
+        const entradaComando = $("entrada-comando");
+        const listaComandos = $("lista-comandos");
+        const notificacionLogro = $("notificacion-logro");
+
+        function getStore(key, fallback) {
+            try {
+                const value = localStorage.getItem(key);
+                return value === null ? fallback : value;
+            } catch (_) {
+                return fallback;
+            }
         }
 
-        imagen.addEventListener("click", reproducirSonido);
+        function setStore(key, value) {
+            try {
+                localStorage.setItem(key, String(value));
+            } catch (_) {}
+        }
 
-        imagen.addEventListener("keydown", (evento) => {
-            if (evento.key === "Enter" || evento.key === " ") {
-                evento.preventDefault();
-                reproducirSonido();
+        function getBool(key, fallback) {
+            return getStore(key, String(fallback)) === "true";
+        }
+
+        let clics = Math.max(0, Number(getStore("epicweb-clics", "0")) || 0);
+        let animaciones = getBool("epicweb-anims", true);
+        let sonidos = getBool("epicweb-sonidos", true);
+        let desbloqueados = [];
+
+        try {
+            desbloqueados = JSON.parse(getStore("epicweb-logros", "[]"));
+        } catch (_) {}
+
+        if (!Array.isArray(desbloqueados)) desbloqueados = [];
+
+        let esPerro = false;
+        let explotando = false;
+        let clicsRecientes = [];
+        let terminalTaps = [];
+        let toastTimer;
+        let usuario = getStore("epicweb-user", "");
+
+        const logros = [{
+            id: "primer-click",
+            titulo: "Empiezan los clicks.",
+            descripcion: "Tu primer click, nada mal :v",
+            imagen: "logro-click.png"
+        }];
+
+        function aplicarPreferencias() {
+            document.body.classList.toggle(
+                "sin-animaciones",
+                !animaciones || reduceMotion
+            );
+
+            $("config-anims").checked = animaciones;
+            $("config-sonidos").checked = sonidos;
+        }
+
+        function actualizarContador() {
+            contador.textContent = clics.toLocaleString("es-MX");
+            setStore("epicweb-clics", clics);
+        }
+
+        function reproducir(audio) {
+            if (!sonidos || !audio) return;
+
+            try {
+                audio.currentTime = 0;
+                const promesa = audio.play();
+
+                if (promesa && promesa.catch) {
+                    promesa.catch(() => {});
+                }
+            } catch (_) {}
+        }
+
+        function comprobarSpam() {
+            const ahora = Date.now();
+
+            clicsRecientes = clicsRecientes.filter(
+                tiempo => ahora - tiempo <= 2000
+            );
+
+            clicsRecientes.push(ahora);
+
+            if (clicsRecientes.length >= 10) {
+                activarExplosion();
+            }
+        }
+
+        function activarExplosion() {
+            if (explotando) return;
+
+            explotando = true;
+            document.body.classList.add("explotando");
+            pantallaExplosion.classList.add("activa");
+            pantallaExplosion.setAttribute("aria-hidden", "false");
+
+            const gif = $("gif-explosion");
+            gif.src = "explosion.gif?reinicio=" + Date.now();
+
+            setTimeout(() => {
+                pantallaExplosion.classList.remove("activa");
+                pantallaExplosion.setAttribute("aria-hidden", "true");
+                document.body.classList.remove("explotando");
+                clicsRecientes = [];
+                explotando = false;
+            }, 2500);
+        }
+
+        function desbloquearLogro(id) {
+            if (desbloqueados.includes(id)) return;
+
+            desbloqueados.push(id);
+            setStore("epicweb-logros", JSON.stringify(desbloqueados));
+            dibujarLogros();
+
+            const logro = logros.find(item => item.id === id);
+            if (!logro) return;
+
+            $("texto-toast-logro").textContent = logro.titulo;
+            $("imagen-toast-logro").src = logro.imagen;
+
+            $("imagen-toast-logro").onerror = () => {
+                $("imagen-toast-logro").onerror = null;
+                $("imagen-toast-logro").src = "imagen.png";
+            };
+
+            notificacionLogro.classList.remove("visible");
+            void notificacionLogro.offsetWidth;
+            notificacionLogro.classList.add("visible");
+
+            reproducir(sonidoLogro);
+
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                notificacionLogro.classList.remove("visible");
+            }, 3600);
+        }
+
+        function dibujarLogros() {
+            const contenedor = $("lista-logros");
+            contenedor.innerHTML = "";
+
+            logros.forEach(logro => {
+                const obtenido = desbloqueados.includes(logro.id);
+                const tarjeta = document.createElement("article");
+
+                tarjeta.className =
+                    "logro-item" + (obtenido ? "" : " bloqueado");
+
+                const img = document.createElement("img");
+                img.src = logro.imagen;
+                img.alt = "";
+
+                img.onerror = () => {
+                    img.onerror = null;
+                    img.src = "imagen.png";
+                };
+
+                const info = document.createElement("div");
+                const titulo = document.createElement("strong");
+                titulo.textContent = logro.titulo;
+
+                const desc = document.createElement("p");
+                desc.textContent = obtenido
+                    ? logro.descripcion
+                    : "Logro bloqueado";
+
+                info.append(titulo, desc);
+                tarjeta.append(img, info);
+                contenedor.append(tarjeta);
+            });
+        }
+
+        function abrirModal(id) {
+            const modal = $(id);
+            modal.classList.add("abierto");
+            modal.setAttribute("aria-hidden", "false");
+        }
+
+        function cerrarModal(id) {
+            const modal = $(id);
+            if (!modal) return;
+
+            modal.classList.remove("abierto");
+            modal.setAttribute("aria-hidden", "true");
+        }
+
+        function mostrarSalida(texto, clase = "") {
+            const p = document.createElement("p");
+            p.className = clase;
+            p.textContent = texto;
+            salidaTerminal.append(p);
+            salidaTerminal.scrollTop = salidaTerminal.scrollHeight;
+        }
+
+        function abrirTerminal() {
+            terminal.classList.add("abierto");
+            terminal.setAttribute("aria-hidden", "false");
+            setTimeout(() => entradaComando.focus(), 500);
+        }
+
+        function cerrarTerminal() {
+            terminal.classList.remove("abierto");
+            terminal.setAttribute("aria-hidden", "true");
+        }
+
+        function ejecutarComando(raw) {
+            const comando = raw.trim().toLowerCase();
+            if (!comando) return;
+
+            mostrarSalida("guest@gatillo:~$ " + comando, "eco-comando");
+
+            switch (comando) {
+                case "help":
+                    mostrarSalida(
+                        "Comandos: shutdown, imgreedy, enemy, credits"
+                    );
+                    break;
+
+                case "shutdown":
+                    cerrarTerminal();
+                    ejecutarShutdown();
+                    break;
+
+                case "imgreedy":
+                    clics += 10000;
+                    actualizarContador();
+
+                    mostrarSalida(
+                        "¡PUM! +10,000 clics. Total: " +
+                        clics.toLocaleString("es-MX")
+                    );
+                    break;
+
+                case "enemy":
+                    esPerro = !esPerro;
+
+                    imagen.src = esPerro
+                        ? "perro.png"
+                        : "imagen.png";
+
+                    imagen.alt = esPerro
+                        ? "Perro interactivo"
+                        : "Imagen interactiva";
+
+                    mostrarSalida(
+                        esPerro
+                            ? "Enemy cambiado a perro."
+                            : "Enemy volvió a ser gatito."
+                    );
+                    break;
+
+                case "credits":
+                    abrirModal("ventana-creditos");
+                    mostrarSalida("Créditos abiertos.");
+                    break;
+
+                default:
+                    mostrarSalida(
+                        "Comando desconocido. Escribe help."
+                    );
+            }
+        }
+
+        async function ejecutarShutdown() {
+            const pantalla = $("pantalla-shutdown");
+            const texto = $("texto-shutdown");
+            const progreso = $("progreso-shutdown");
+            const broma = $("texto-broma");
+
+            pantalla.classList.add("activa");
+            pantalla.setAttribute("aria-hidden", "false");
+            broma.classList.remove("visible");
+
+            try {
+                if (
+                    !document.fullscreenElement &&
+                    document.documentElement.requestFullscreen
+                ) {
+                    await document.documentElement.requestFullscreen();
+                }
+            } catch (_) {
+                // La pantalla falsa sigue funcionando sin pantalla completa.
+            }
+
+            const duracion =
+                animaciones && !reduceMotion ? 1800 : 500;
+
+            const inicio = Date.now();
+
+            const actualizar = () => {
+                const pct = Math.min(
+                    100,
+                    Math.round(((Date.now() - inicio) / duracion) * 100)
+                );
+
+                progreso.style.width = pct + "%";
+                texto.textContent =
+                    "Recopilando información: " + pct + "%";
+
+                if (pct < 100) {
+                    requestAnimationFrame(actualizar);
+                } else {
+                    broma.classList.add("visible");
+
+                    setTimeout(async () => {
+                        pantalla.classList.remove("activa");
+                        pantalla.setAttribute("aria-hidden", "true");
+
+                        if (
+                            document.fullscreenElement &&
+                            document.exitFullscreen
+                        ) {
+                            try {
+                                await document.exitFullscreen();
+                            } catch (_) {}
+                        }
+
+                        document.body.classList.add("regresando");
+
+                        setTimeout(() => {
+                            document.body.classList.remove("regresando");
+                        }, 700);
+                    }, 1000);
+                }
+            };
+
+            requestAnimationFrame(actualizar);
+        }
+
+        const procesosCarga = [
+            "web",
+            "imagen.png",
+            "sonido.mp3",
+            "Gatillo Engine",
+            "interfaz"
+        ];
+
+        const inicioCarga = Date.now();
+        let porcentaje = 0;
+
+        function avanzarCarga() {
+            porcentaje = Math.min(
+                100,
+                porcentaje + Math.random() * 22 + 9
+            );
+
+            const proceso = procesosCarga[
+                Math.min(
+                    procesosCarga.length - 1,
+                    Math.floor(porcentaje / 21)
+                )
+            ];
+
+            textoCarga.textContent =
+                "Cargando: " + proceso +
+                " | Proceso: " + Math.floor(porcentaje) + "%";
+
+            progresoCarga.style.width = porcentaje + "%";
+
+            if (porcentaje < 100) {
+                setTimeout(avanzarCarga, 140);
+            } else {
+                const esperar = Math.max(
+                    0,
+                    900 - (Date.now() - inicioCarga)
+                );
+
+                setTimeout(() => {
+                    document.body.classList.add("sitio-listo");
+                    pantallaCarga.classList.add("carga-saliendo");
+
+                    setTimeout(() => {
+                        pantallaCarga.classList.add("carga-oculta");
+                        mostrarMensajeAleatorio();
+                        iniciarUsuario();
+                    }, 900);
+                }, esperar);
+            }
+        }
+
+        function iniciarUsuario() {
+            const tarjeta = $("tarjeta-usuario");
+
+            if (usuario) {
+                tarjeta.classList.remove("abierto");
+                $("saludo-usuario").textContent =
+                    "Qué onda, " + usuario + " :v";
+            } else {
+                tarjeta.classList.add("abierto");
+                setTimeout(() => $("entrada-usuario").focus(), 400);
+            }
+        }
+
+        function mostrarMensajeAleatorio() {
+            const mensajes = [
+                "Esta página es muy sencilla, no consume muchos recursos :v",
+                "Perfecto para matar tiempo :v",
+                "Listo para clickear al gatito? :v",
+                "Perfecto para olvidarte de tus problemas un ratito :v"
+            ];
+
+            const caja = $("mensaje-aleatorio");
+
+            caja.textContent =
+                mensajes[Math.floor(Math.random() * mensajes.length)];
+
+            caja.classList.add("visible");
+
+            setTimeout(() => {
+                caja.classList.remove("visible");
+            }, 4800);
+        }
+
+        // CLIC PRINCIPAL: selecciona el sonido según el personaje.
+        botonGato.addEventListener("click", () => {
+            if (explotando) return;
+
+            comprobarSpam();
+
+            clics++;
+            actualizarContador();
+            desbloquearLogro("primer-click");
+
+            if (animaciones && !reduceMotion) {
+                botonGato.classList.remove("acariciado");
+                void botonGato.offsetWidth;
+                botonGato.classList.add("acariciado");
+            }
+
+            // Gato = sonido.mp3 | Perro = sonido-perro.mp3
+            reproducir(esPerro ? sonidoPerro : sonido);
+        });
+
+        botonReiniciar.addEventListener("click", () => {
+            if (confirm("¿Seguro que quieres reiniciar el contador?")) {
+                clics = 0;
+                actualizarContador();
             }
         });
+
+        $("boton-secreto").addEventListener("click", () => {
+            const ahora = Date.now();
+
+            terminalTaps = terminalTaps.filter(
+                tiempo => ahora - tiempo < 5000
+            );
+
+            terminalTaps.push(ahora);
+
+            if (terminalTaps.length >= 5) {
+                terminalTaps = [];
+                abrirTerminal();
+            } else {
+                $("boton-secreto").classList.add("pulsado");
+
+                setTimeout(() => {
+                    $("boton-secreto").classList.remove("pulsado");
+                }, 180);
+            }
+        });
+
+        $("cerrar-terminal").addEventListener("click", cerrarTerminal);
+
+        $("boton-nota").addEventListener("click", () => {
+            listaComandos.classList.toggle("oculto");
+        });
+
+        $("form-terminal").addEventListener("submit", event => {
+            event.preventDefault();
+            ejecutarComando(entradaComando.value);
+            entradaComando.value = "";
+        });
+
+        $("abrir-logros").addEventListener("click", () => {
+            dibujarLogros();
+            abrirModal("panel-logros");
+        });
+
+        $("abrir-config").addEventListener("click", () => {
+            abrirModal("panel-config");
+        });
+
+        document.querySelectorAll(".cerrar-modal").forEach(boton => {
+            boton.addEventListener("click", () => {
+                cerrarModal(boton.dataset.close);
+            });
+        });
+
+        $("config-anims").addEventListener("change", event => {
+            animaciones = event.target.checked;
+            setStore("epicweb-anims", animaciones);
+            aplicarPreferencias();
+        });
+
+        $("config-sonidos").addEventListener("change", event => {
+            sonidos = event.target.checked;
+            setStore("epicweb-sonidos", sonidos);
+            aplicarPreferencias();
+        });
+
+        $("form-usuario").addEventListener("submit", event => {
+            event.preventDefault();
+
+            const nuevo = $("entrada-usuario").value
+                .trim()
+                .replace(/\s+/g, " ");
+
+            if (!nuevo) return;
+
+            usuario = nuevo.slice(0, 24);
+            setStore("epicweb-user", usuario);
+
+            $("saludo-usuario").textContent =
+                "Qué onda, " + usuario + " :v";
+
+            $("tarjeta-usuario").classList.remove("abierto");
+        });
+
+        $("cerrar-usuario").addEventListener("click", () => {
+            $("tarjeta-usuario").classList.remove("abierto");
+        });
+
+        $("imagen-creditos").addEventListener("error", function () {
+            this.onerror = null;
+            this.src = "imagen.png";
+        });
+
+        setInterval(() => {
+            if (
+                document.visibilityState === "visible" &&
+                !terminal.classList.contains("abierto")
+            ) {
+                mostrarMensajeAleatorio();
+            }
+        }, 45000);
+
+        // Avisar en la consola si faltan archivos multimedia.
+        [
+            "imagen.png",
+            "perro.png",
+            "loader.png",
+            "sonido.mp3",
+            "sonido-perro.mp3"
+        ].forEach(nombre => {
+            const probe = new Image();
+
+            probe.onerror = () => {
+                console.warn(
+                    "No se encontró " + nombre +
+                    ". Revisa el nombre y la carpeta."
+                );
+            };
+
+            probe.src = nombre;
+        });
+
+        actualizarContador();
+        aplicarPreferencias();
+        dibujarLogros();
+        avanzarCarga();
+    })();
     </script>
 </body>
 </html>

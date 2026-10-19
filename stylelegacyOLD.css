@@ -1,0 +1,305 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    color-scheme: dark;
+    --fondo: #11111b;
+    --morado: #a78bfa;
+    --texto-suave: #c4c4d4;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(ellipse at top, #30204b 0%, transparent 55%),
+        var(--fondo);
+
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Página principal: inicialmente invisible */
+.contenedor {
+    width: 100%;
+    max-width: 540px;
+    padding: 32px 24px;
+    text-align: center;
+
+    background: #1c1c2bef;
+    border: 1px solid #ffffff18;
+    border-radius: 28px;
+    box-shadow: 0 20px 70px #0005;
+
+    opacity: 0;
+    transform: translateY(18px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+/* Fade in del sitio */
+body.sitio-listo .contenedor {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h1 {
+    margin: 18px 0 12px;
+    color: var(--morado);
+    font-size: clamp(28px, 7vw, 40px);
+}
+
+.descripcion {
+    color: var(--texto-suave);
+    line-height: 1.6;
+}
+
+/* Botón de la imagen */
+.boton-gato {
+    display: inline-block;
+    margin: 22px auto;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+#imagen {
+    display: block;
+    width: 230px;
+    max-width: 65vw;
+    aspect-ratio: 1;
+    object-fit: cover;
+
+    border-radius: 22px;
+    border: 2px solid #a78bfa55;
+    box-shadow: 0 0 30px #a78bfa20;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.boton-gato:hover #imagen {
+    transform: translateY(-6px) scale(1.04);
+    border-color: var(--morado);
+    box-shadow: 0 12px 40px #a78bfa45;
+}
+
+.boton-gato:active #imagen {
+    transform: scale(0.94);
+}
+
+.boton-gato:focus-visible,
+.boton-reiniciar:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 5px;
+}
+
+/* Animación al pulsar */
+.boton-gato.acariciado #imagen {
+    animation: acariciar 0.45s ease;
+}
+
+@keyframes acariciar {
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform: scale(0.88) rotate(-5deg);
+    }
+
+    65% {
+        transform: scale(1.08) rotate(4deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Tarjeta del contador */
+.contador-tarjeta {
+    margin: 8px 0 20px;
+    padding: 18px;
+
+    background: #ffffff08;
+    border: 1px solid #ffffff12;
+    border-radius: 18px;
+}
+
+.contador-tarjeta p {
+    margin: 0;
+    color: var(--texto-suave);
+    line-height: 1.5;
+}
+
+#contador {
+    margin: 8px 0;
+    color: var(--morado);
+    font-size: 48px;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Botón de reinicio */
+.boton-reiniciar {
+    padding: 11px 18px;
+
+    color: white;
+    background: #ffffff0c;
+    border: 1px solid #ffffff25;
+    border-radius: 12px;
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.boton-reiniciar:hover {
+    background: #a78bfa30;
+    transform: translateY(-2px);
+}
+
+/* Pantalla de carga */
+.pantalla-carga {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+
+    background: var(--fondo);
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        background-color 0.9s ease,
+        opacity 0.9s ease,
+        visibility 0s linear 0.9s;
+}
+
+/* PNG girando */
+.loader-icon {
+    display: block;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+
+    animation: girar 1.5s linear infinite;
+    will-change: transform;
+}
+
+/* Texto original de carga */
+.texto-carga {
+    margin: 0;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+
+/* Preparar la salida */
+.pantalla-carga.carga-saliendo {
+    background: transparent;
+    pointer-events: none;
+}
+
+/* Detener el giro y hacer caer el PNG */
+.carga-saliendo .loader-icon {
+    animation: salir-abajo 0.9s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+/* Desvanecer el texto */
+.carga-saliendo .texto-carga {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* Retirar la pantalla de carga */
+.pantalla-carga.carga-oculta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Animaciones */
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes salir-abajo {
+    from {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    to {
+        transform: translateY(110vh) rotate(0deg);
+    }
+}
+
+/* Adaptación para móviles */
+@media (max-width: 400px) {
+    .contenedor {
+        padding: 26px 16px;
+    }
+
+    #imagen {
+        width: 200px;
+    }
+
+    .loader-icon {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Respeto por la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .loader-icon {
+        animation-duration: 3s;
+    }
+
+    .pantalla-carga,
+    .texto-carga,
+    .contenedor {
+        transition-duration: 0.2s;
+    }
+
+    .carga-saliendo .loader-icon {
+        animation-duration: 0.2s;
+    }
+}

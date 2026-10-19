@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#11111b">
+    <title>Mi primera web :v</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Pantalla de carga -->
+    <div id="pantalla-carga" class="pantalla-carga">
+        <img src="loader.png" alt="" class="loader-icon">
+        <p class="texto-carga">¡Está cargando! :v</p>
+    </div>
+
+    <!-- Página principal -->
+    <main class="contenedor">
+        <h1>¡Qué onda, mundo! :v</h1>
+
+        <p class="descripcion">
+            Presiona la imagen para escuchar el sonidito.
+        </p>
+
+        <button
+            id="boton-gato"
+            class="boton-gato"
+            type="button"
+            aria-label="Reproducir sonidito"
+        >
+            <img
+                src="imagen.png"
+                alt="Imagen interactiva"
+                id="imagen"
+            >
+        </button>
+
+        <div class="contador-tarjeta">
+            <p>Veces que has clickeado la imagen</p>
+            <div id="contador" aria-live="polite">0</div>
+        </div>
+
+        <button id="reiniciar" class="boton-reiniciar" type="button">
+            Reiniciar contador
+        </button>
+    </main>
+
+    <audio id="sonido" src="sonido.mp3" preload="auto"></audio>
+
+    <script>
+        const pantallaCarga = document.getElementById("pantalla-carga");
+        const botonGato = document.getElementById("boton-gato");
+        const imagen = document.getElementById("imagen");
+        const contador = document.getElementById("contador");
+        const sonido = document.getElementById("sonido");
+        const botonReiniciar = document.getElementById("reiniciar");
+
+        // Recuperar el contador guardado en este navegador.
+        let clics = Number(localStorage.getItem("epicweb-clics")) || 0;
+
+        function actualizarContador() {
+            contador.textContent = clics.toLocaleString("es-MX");
+            localStorage.setItem("epicweb-clics", clics);
+        }
+
+        actualizarContador();
+
+        // Detectar clics en la imagen.
+        botonGato.addEventListener("click", () => {
+            clics++;
+            actualizarContador();
+
+            // Reiniciar la animación en cada clic.
+            botonGato.classList.remove("acariciado");
+            void botonGato.offsetWidth;
+            botonGato.classList.add("acariciado");
+
+            // Reproducir el sonido.
+            sonido.currentTime = 0;
+            sonido.play().catch(() => {
+                console.log("No se pudo reproducir el sonido.");
+            });
+        });
+
+        // Reiniciar el contador.
+        botonReiniciar.addEventListener("click", () => {
+            if (confirm("¿Seguro que quieres reiniciar el contador?")) {
+                clics = 0;
+                actualizarContador();
+            }
+        });
+
+        // Pantalla de carga.
+        const inicio = Date.now();
+        let cargaIniciada = false;
+
+        function terminarCarga() {
+            if (cargaIniciada) return;
+            cargaIniciada = true;
+
+            // Mostrar la intro al menos 900 ms.
+            const espera = Math.max(0, 900 - (Date.now() - inicio));
+
+            setTimeout(() => {
+                // Iniciar el fade in del sitio y la caída del PNG.
+                document.body.classList.add("sitio-listo");
+                pantallaCarga.classList.add("carga-saliendo");
+
+                // Ocultar la capa al terminar la animación.
+                setTimeout(() => {
+                    pantallaCarga.classList.add("carga-oculta");
+                }, 900);
+            }, espera);
+        }
+
+        if (document.readyState === "complete") {
+            terminarCarga();
+        } else {
+            window.addEventListener("load", terminarCarga, { once: true });
+        }
+
+        // Mostrar un aviso si falta la imagen principal.
+        imagen.addEventListener("error", () => {
+            console.error(
+                "No se encontró imagen.webp. Comprueba el nombre y la ubicación del archivo."
+            );
+        });
+
+        // Avisar en consola si falta el PNG de carga.
+        document.querySelector(".loader-icon").addEventListener("error", () => {
+            console.error(
+                "No se encontró loader.png. Comprueba el nombre y la ubicación del archivo."
+            );
+        });
+    </script>
+</body>
+</html>
