@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primera web :v</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>¡Qué onda, mundo! :v</h1>
+    <p>Presiona la imagen para escuchar el sonidito.</p>
+
+    <img
+        src="imagen.png"
+        alt="Imagen interactiva"
+        id="imagen"
+        tabindex="0"
+        role="button"
+        aria-label="Reproducir sonidito"
+    >
+
+    <audio id="sonido" src="sonido.mp3" preload="auto"></audio>
+
+    <script>
+        const imagen = document.getElementById("imagen");
+        const sonido = document.getElementById("sonido");
+
+        function reproducirSonido() {
+            sonido.currentTime = 0;
+            sonido.play();
+        }
+
+        imagen.addEventListener("click", reproducirSonido);
+
+        imagen.addEventListener("keydown", (evento) => {
+            if (evento.key === "Enter" || evento.key === " ") {
+                evento.preventDefault();
+                reproducirSonido();
+            }
+        });
+    </script>
+</body>
+</html>
