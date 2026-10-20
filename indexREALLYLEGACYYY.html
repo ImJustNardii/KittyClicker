@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#11111b">
+    <title>Mi primera web :v</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Carga dinámica -->
+    <div id="pantalla-carga" class="pantalla-carga">
+        <img src="loader.png" alt="" class="loader-icon">
+        <p id="texto-carga" class="texto-carga">Cargando: web | Proceso: 0%</p>
+        <div class="barra-carga"><div id="progreso-carga"></div></div>
+    </div>
+
+    <!-- Tarjeta de usuario -->
+    <aside id="tarjeta-usuario" class="tarjeta-usuario panel">
+        <button class="cerrar-mini" id="cerrar-usuario" aria-label="Cerrar">×</button>
+        <h2>¿Quién anda por aquí? :v</h2>
+        <p>Tu nombre se guardará en este navegador.</p>
+        <form id="form-usuario">
+            <input id="entrada-usuario" maxlength="24" autocomplete="nickname" placeholder="Tu user..." required>
+            <button class="boton" type="submit">Entrar</button>
+        </form>
+    </aside>
+
+    <!-- Mensaje rotativo -->
+    <div id="mensaje-aleatorio" class="mensaje-aleatorio" aria-live="polite"></div>
+
+    <!-- Página principal -->
+    <main class="contenedor">
+        <h1>¡Qué onda, mundo! :v</h1>
+        <p class="descripcion">Presiona la imagen para escuchar el sonidito.</p>
+
+        <div class="fila-gatito">
+            <button id="boton-gato" class="boton-gato" type="button" aria-label="Reproducir sonidito">
+                <img src="imagen.png" alt="Imagen interactiva" id="imagen">
+            </button>
+
+            <button id="boton-secreto" class="icono-secreto" type="button" aria-label="Icono secreto" title="...">
+                <span aria-hidden="true">◈</span>
+            </button>
+        </div>
+
+        <div class="contador-tarjeta">
+            <p>Veces que has clickeado la imagen</p>
+            <div id="contador" aria-live="polite">0</div>
+        </div>
+
+        <div class="barra-herramientas">
+            <button id="abrir-logros" class="boton-icono" type="button" aria-label="Ver logros" title="Logros">
+                <img src="logros.png" alt="" class="imagen-icono" onerror="this.onerror=null;this.src='imagen.png'">
+            </button>
+            <button id="abrir-config" class="boton" type="button">Configuración ⚙</button>
+            <button id="abrir-tienda" class="boton" type="button">Tienda 🛒</button>
+            <button id="abrir-stats" class="boton" type="button">Estadísticas 📊</button>
+            <button id="abrir-prestigio" class="boton" type="button">Prestigio ✨</button>
+            <button id="cambiar-modo" class="boton" type="button">Modo: Casual</button>
+            <button id="reiniciar" class="boton boton-secundario" type="button">Reiniciar contador</button>
+        </div>
+        <p id="saludo-usuario" class="saludo-usuario"></p>
+        <section id="panel-batalla" class="panel-batalla" hidden>
+          <div class="batalla-titulo"><strong>⚔️ Gatillo Battle</strong><span id="enemigo-nombre">Gatito clásico</span></div>
+          <div class="enemigo-combate"><img id="imagen-enemigo" src="imagen.png" alt="Enemigo de batalla"><div class="vida-enemigo"><div id="vida-enemigo-barra"></div></div></div>
+          <p id="vidas-jugador">Vidas: 5/5</p><p id="texto-batalla">¡Haz clic cuando el indicador esté en la zona roja!</p>
+          <div id="barra-precision" class="barra-precision" role="button" tabindex="0" aria-label="Barra de precisión; haz clic cuando el indicador esté en rojo"><div id="zona-roja"></div><div id="indicador-batalla"></div></div>
+          <p class="ayuda-batalla">¡Clic en la zona roja para golpear! Si fallas, el enemigo te golpea.</p>
+        </section>
+        <p class="resumen-juego">Clics por segundo: <strong id="cps">0</strong> · Monedas: <strong id="monedas">0</strong> · Prestigio: <strong id="nivel-prestigio">0</strong></p>
+    </main>
+
+    <!-- Terminal Gatillo Engine -->
+    <section id="terminal" class="terminal panel" aria-label="Gatillo Engine" aria-hidden="true">
+        <header class="terminal-cabecera">
+            <div><span class="terminal-punto"></span><strong>Gatillo Engine</strong></div>
+            <button id="cerrar-terminal" class="cerrar-mini" aria-label="Cerrar terminal">×</button>
+        </header>
+        <button id="boton-nota" class="nota-comandos" type="button">🗒 Comandos</button>
+        <div id="lista-comandos" class="lista-comandos oculto">
+            <strong>Comandos disponibles</strong>
+            <p><code>shutdown</code> — error falso de Windows</p>
+            <p><code>imgreedy</code> — +10,000 clics</p>
+            <p><code>enemy</code> — cambia gato/perro</p>
+            <p><code>credits</code> — créditos del creador</p>
+        </div>
+        <div id="terminal-salida" class="terminal-salida" aria-live="polite">
+            <p>Gatillo Engine [versión 0.1]</p>
+            <p>Escribe <code>help</code> para ver los comandos.</p>
+        </div>
+        <form id="form-terminal" class="terminal-form">
+            <label for="entrada-comando">guest@gatillo:~$</label>
+            <input id="entrada-comando" autocomplete="off" spellcheck="false" aria-label="Comando">
+            <button class="boton" type="submit">Ejecutar</button>
+        </form>
+    </section>
+
+    <!-- Panel de logros -->
+    <section id="panel-logros" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera">
+            <h2>Logros</h2>
+            <button class="cerrar-mini cerrar-modal" data-close="panel-logros" aria-label="Cerrar logros">×</button>
+        </header>
+        <div id="lista-logros"></div>
+        <button id="reiniciar-logros" class="boton boton-secundario boton-reset-logros" type="button">Reiniciar logros</button>
+    </section>
+
+    <!-- Panel de configuración -->
+    <section id="panel-config" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera">
+            <h2>Configuración</h2>
+            <button class="cerrar-mini cerrar-modal" data-close="panel-config" aria-label="Cerrar configuración">×</button>
+        </header>
+        <label class="ajuste"><span>Animaciones</span><input id="config-anims" type="checkbox" checked></label>
+        <label class="ajuste"><span>Sonidos</span><input id="config-sonidos" type="checkbox" checked></label>
+        <p class="nota-config">Los ajustes se guardan en este navegador.</p>
+    </section>
+
+    <!-- Créditos -->
+    <section id="ventana-creditos" class="ventana-modal creditos panel" aria-hidden="true">
+        <button class="cerrar-mini cerrar-modal" data-close="ventana-creditos" aria-label="Cerrar créditos">×</button>
+        <h2>Developed by ImNardii</h2>
+        <img src="credits.png" alt="Imagen de créditos" id="imagen-creditos">
+    </section>
+
+    <!-- Pantalla de explosión por spam -->
+    <section id="pantalla-explosion" class="pantalla-explosion" aria-hidden="true">
+        <img src="explosion.gif" alt="" id="gif-explosion">
+        <h1>Te pasaste de lanza :v</h1>
+    </section>
+
+    <!-- Pantalla de shutdown ficticia -->
+    <section id="pantalla-shutdown" class="pantalla-shutdown" aria-hidden="true">
+        <div class="error-windows">
+            <div class="error-icono">:(</div>
+            <h1>Tu PC tuvo un problema y necesita reiniciarse.</h1>
+            <p>Es broma, tranquilo. Gatillo Engine hizo de las suyas.</p>
+            <div class="error-progreso"><div id="progreso-shutdown"></div></div>
+            <p id="texto-shutdown">Recopilando información: 0%</p>
+            <h2 id="texto-broma" class="texto-broma">Es bromilla :v</h2>
+        </div>
+    </section>
+
+    <!-- Toast de logros -->
+    <div id="notificacion-logro" class="notificacion-logro" aria-live="polite">
+        <img src="logro-click.png" alt="" id="imagen-toast-logro">
+        <div><strong>Logro desbloqueado</strong><p id="texto-toast-logro">Empiezan los clicks.</p></div>
+    </div>
+
+    <section id="selector-modo" class="ventana-modal panel selector-modo" aria-hidden="true">
+        <h2>Bienvenido a The Clickening :v</h2><p>Elige cómo quieres jugar. Puedes cambiar de modo cuando quieras.</p>
+        <div class="selector-botones"><button id="elegir-casual" class="boton" type="button">🐱 Casual</button><button id="elegir-batalla" class="boton" type="button">⚔️ Batalla</button></div>
+    </section>
+    <section id="panel-tienda" class="ventana-modal panel panel-ancho" aria-hidden="true">
+        <header class="modal-cabecera"><h2>Tienda de Gatillo 🛒</h2><button class="cerrar-mini cerrar-modal" data-close="panel-tienda" aria-label="Cerrar tienda">×</button></header>
+        <p>Gasta monedas ganadas al jugar. Las mejoras se conservan en este navegador.</p>
+        <div id="lista-mejoras" class="rejilla-tienda"></div>
+        <h3>Skins</h3><div id="lista-skins" class="rejilla-tienda"></div>
+    </section>
+    <section id="panel-stats" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera"><h2>Estadísticas 📊</h2><button class="cerrar-mini cerrar-modal" data-close="panel-stats" aria-label="Cerrar estadísticas">×</button></header>
+        <div id="contenido-stats" class="stats-grid"></div>
+    </section>
+    <section id="panel-prestigio" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera"><h2>Prestigio ✨</h2><button class="cerrar-mini cerrar-modal" data-close="panel-prestigio" aria-label="Cerrar prestigio">×</button></header>
+        <p>El prestigio reinicia tus clics y mejoras, pero conserva logros y estadísticas históricas. A cambio obtienes un multiplicador permanente.</p>
+        <div id="info-prestigio"></div><button id="hacer-prestigio" class="boton" type="button">Ascender</button> <button id="revertir-prestigio" class="boton boton-secundario" type="button">Revertir un nivel</button> <button id="resetear-prestigio" class="boton boton-secundario" type="button">Resetear prestigio</button>
+    </section>
+
+    <audio id="sonido" src="sonido.mp3" preload="auto"></audio>
+    <audio id="sonido-perro" src="sonido-perro.mp3" preload="auto"></audio>
+    <audio id="sonido-logro" src="logro.mp3" preload="auto"></audio>
+    <audio id="sonido-logro-completo" src="logro-completo.mp3" preload="auto"></audio>
+
+    <script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const KEY='epicweb-';
+const read=(k,d)=>{try{const v=localStorage.getItem(KEY+k);return v===null?d:JSON.parse(v)}catch{return d}};
+const save=(k,v)=>{try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch{}};
+const num=(v)=>Math.max(0,Number(v)||0);
+const state={
+ clicks:num(read('clicks',0)), legitClicks:num(read('legitClicks',0)), legitLifetime:num(read('legitLifetime',0)), totalClicks:num(read('totalClicks',0)), coins:num(read('coins',0)),
+ upgrades:read('upgrades',{}), equipped:read('equipped',[]), unlocked:read('logros',[]), user:read('user',''), animations:read('anims',true), sounds:read('sonidos',true), mode:read('mode','Casual'),
+ prestige:num(read('prestige',0)), skin:read('skin','cat'), ownedSkins:read('ownedSkins',['cat']), playSeconds:num(read('playSeconds',0)), bestCps:num(read('bestCps',0)), commandsUsed:read('commandsUsed',[]), eventCount:num(read('eventCount',0)), enemySwitches:num(read('enemySwitches',0)), resets:num(read('resets',0)), battleWins:num(read('battleWins',0)), rareEvents:num(read('rareEvents',0)), bestBattleStreak:num(read('bestBattleStreak',0)), achievementDates:read('achievementDates',{})
+};
+for(const k of ['upgrades','equipped','unlocked','ownedSkins','commandsUsed','achievementDates'])if(!state[k]||typeof state[k] !== (Array.isArray(state[k])?'object':'object'))state[k]=Array.isArray(state[k])?[]:{};
+if(!Array.isArray(state.unlocked))state.unlocked=[];if(!Array.isArray(state.ownedSkins))state.ownedSkins=['cat'];if(!Array.isArray(state.equipped))state.equipped=[];if(!Array.isArray(state.commandsUsed))state.commandsUsed=[];if(!state.upgrades||typeof state.upgrades!=='object')state.upgrades={};
+const audio={cat:$('sonido'),dog:$('sonido-perro'),achievement:$('sonido-logro'),complete:$('sonido-logro-completo')};
+const prestigeGoals=[10,100,200,500,1000,2000,3000,5000,6700,8880,10000];
+const upgrades=[
+{id:'click1',name:'Dedo entrenado',desc:'+1 clic base por pulsación.',base:25,effect:'click'},
+{id:'click5',name:'Guante gamer',desc:'+5 clics base por pulsación.',base:180,effect:'click'},
+{id:'click20',name:'Brazo robótico',desc:'+20 clics base por pulsación.',base:950,effect:'click'},
+{id:'multiplier',name:'Cafeína de gatito',desc:'+25% al poder de clic.',base:700,effect:'multiplier'},
+{id:'auto',name:'Gatito automático',desc:'Genera clics cada 3 segundos mientras esté equipado.',base:1100,effect:'auto'},
+{id:'coin',name:'Monedero premium',desc:'+25% monedas por clic mientras esté equipado.',base:550,effect:'coin'},
+{id:'lucky',name:'Amuleto de suerte',desc:'Aumenta un poco la probabilidad de eventos raros.',base:1800,effect:'lucky'}
+];
+const skins=[
+{id:'cat',name:'Gatito clásico',src:'imagen.png',price:0,type:'default',desc:'La leyenda original.'},
+{id:'cat-cool',name:'Gatito deluxe',src:'gato-deluxe.png',price:500,type:'shop',desc:'Una skin comprable; coloca tu propia imagen en gato-deluxe.png.'},
+{id:'cat-gold',name:'Gatito dorado',src:'imagen.png',price:0,type:'achievement',desc:'Se desbloquea al conseguir todos los logros normales.'},
+{id:'dog-gold',name:'Perro dorado',src:'perro.png',price:1200,type:'shop',desc:'La única skin de perro; una versión dorada del enemigo.'},
+{id:'wifi-skeleton',name:'WifiSkeleton',src:'wifi-skeleton.png',price:1800,type:'shop',desc:'Conectado... pero ya tarde. Una skin de esqueleto con Wi-Fi.'}
+];
+const achievementList=[
+['primer-click','Empiezan los clicks.','Tu primer click, nada mal :v'],
+['100-clicks','Centenario','Consigue 100 clics totales.'],
+['1000-clicks','El milenario','Consigue 1,000 clics totales.'],
+['viciado','Viciado','Consigue 10,000 clics totales.'],
+['millones','¿No tienes tarea?','Consigue 100,000 clics totales.'],
+['comprador','Cliente frecuente','Compra tu primera mejora.'],
+['pasto','¿Has escuchado de el pasto?','Realmente, necesitas un poco..'],
+['pro-clicker','Pro Clicker Max Ultra Cardiaco','Ostia :v'],
+['moda','La Moda Manda','Trajes del shein :v'],
+['coleccionista','Coleccionista','Consigue todas las skins de tienda.'],
+['batalla','Empezo La Batalla..','Demasiado para un clicker XD'],
+['en-las-nubes','Primer ascenso','Alcanza el primer prestigio.'],
+['multiverso','Otro nivel','Alcanza el tercer prestigio.'],
+['deidad','La deidad del click','Alcanza el prestigio máximo.'],
+['mayor-enemigo','El Mayor Enemigo','Usa el comando enemy.'],
+['newbie','El Newbie','Ahora te vas a creer hacker XD'],
+['responsables','Me Gusta Ver A Los Responsables!','Que shido :v'],
+['mayor-error','El Mayor Error..','01010100 01000101 00100000 01000001 01010011 01010101 01010011 01010100 01000001 01010011'],
+['viciado-batalla','A la primera no era','Gana tu primera batalla.'],
+['agente','Agente de gobierno','Te gusta resolver cosas :v'],
+['necesitas-dedo','Necesitaras un nuevo dedo...','Creeme :´v'],
+['armado','Armado hasta los dientes','Nadie te puede detener!'],
+['completo','¿Es Esto Todo?','Si que te ha gustado este proyecto :v'],
+['rickrolled','RickRolled','never gonna give you up.. :v',true],
+['pepinillo','Pepinillo','Soy un pepinillo morty! :v',true],
+['wifi-fun','Im not tryna ruin your fun.','You are just a little bit late, i guess youre already done.',true],
+['perfeccionista','Perfeccionista','Realmente te gusta esto eh?']
+];
+const normalIds=achievementList.filter(a=>!a[3]&&a[0]!=='perfeccionista'&&a[0]!=='completo'&&a[0]!=='agente'&&a[0]!=='necesitas-dedo'&&a[0]!=='armado').map(a=>a[0]);
+const secretIds=['rickrolled','pepinillo','wifi-fun'];
+const commandNames=['help','shutdown','imgreedy','enemy','credits','rickroll','admin'];
+let recent=[],terminalTaps=[],toastTimer=null,exploding=false,cps=0,dogMode=false,gameStarted=false;
+let battle={active:false,enemyIndex:0,enemyHp:100,enemyMax:100,playerHp:5,indicator:0,direction:1,speed:0.7,zoneStart:35,zoneWidth:18,hits:0,raf:0,streak:0};
+const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+function persist(){const data={clicks:state.clicks,legitClicks:state.legitClicks,legitLifetime:state.legitLifetime,totalClicks:state.totalClicks,coins:state.coins,upgrades:state.upgrades,equipped:state.equipped,logros:state.unlocked,user:state.user,anims:state.animations,sonidos:state.sounds,mode:state.mode,prestige:state.prestige,skin:state.skin,ownedSkins:state.ownedSkins,playSeconds:state.playSeconds,bestCps:state.bestCps,commandsUsed:state.commandsUsed,eventCount:state.eventCount,enemySwitches:state.enemySwitches,resets:state.resets,battleWins:state.battleWins,rareEvents:state.rareEvents,bestBattleStreak:state.bestBattleStreak,achievementDates:state.achievementDates};for(const [k,v] of Object.entries(data))save(k,v);try{localStorage.setItem('epicweb-clics',String(state.clicks));localStorage.setItem('epicweb-user',state.user)}catch{}}
+function play(a){if(!state.sounds||!a)return;try{a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch{}}
+function equipped(id){return state.equipped.includes(id)}
+function ownedUpgradeCount(){return upgrades.filter(u=>(state.upgrades[u.id]||0)>0).length}
+function totalUpgradeLevels(){return upgrades.reduce((n,u)=>n+(state.upgrades[u.id]||0),0)}
+function clickPower(){let p=1+(equipped('click1')?(state.upgrades.click1||0):0)+5*(equipped('click5')?(state.upgrades.click5||0):0)+20*(equipped('click20')?(state.upgrades.click20||0):0);if(equipped('multiplier'))p*=1+0.25*(state.upgrades.multiplier||0);return p}
+function addCoins(n){state.coins+=Math.max(0,Math.floor(n))}
+function modeMultiplier(){return 1+state.prestige*.12}
+function currentSkin(){return skins.find(s=>s.id===state.skin)||skins[0]}
+function renderSkin(){const s=currentSkin();dogMode=s.id==='dog'||s.id==='dog-gold';$('imagen').src=s.src;$('imagen').alt=dogMode?'Perro interactivo':'Gatito interactivo';$('imagen').classList.toggle('skin-dorada',s.id==='cat-gold'||s.id==='dog-gold');$('imagen').classList.remove('skin-deluxe');$('boton-gato').setAttribute('aria-label',dogMode?'Golpear al perro':'Hacer clic al gatito')}
+function refresh(){ $('contador').textContent=state.clicks.toLocaleString('es-MX');$('monedas').textContent=state.coins.toLocaleString('es-MX');$('nivel-prestigio').textContent=state.prestige;$('cps').textContent=cps.toFixed(1);$('saludo-usuario').textContent=state.user?`Qué onda, ${state.user} :v`:'Pon tu nombre para guardar tu perfil.';$('cambiar-modo').textContent='Modo: '+state.mode;$('panel-batalla').hidden=state.mode!=='Batalla';$('config-anims').checked=state.animations;$('config-sonidos').checked=state.sounds;renderSkin();renderAchievements();renderShop();renderStats();renderPrestige();updateBattleUI();persist()}
+function achievementIcon(id){return id==='wifi-fun'?'logro-wifi-fun.png':`logro-${id}.png`}
+function award(id){if(state.unlocked.includes(id))return;const a=achievementList.find(x=>x[0]===id);if(!a)return;state.unlocked.push(id);state.achievementDates[id]=new Date().toLocaleDateString('es-MX');persist();$('texto-toast-logro').textContent=a[1];const toastIcon=$('imagen-toast-logro');toastIcon.onerror=()=>{toastIcon.onerror=null;toastIcon.src='logro-click.png';toastIcon.onerror=()=>{toastIcon.onerror=null;toastIcon.src='imagen.png'}};toastIcon.src=achievementIcon(id);$('notificacion-logro').classList.toggle('logro-dorado',id==='completo');$('notificacion-logro').classList.toggle('logro-mitico-rojo',id==='perfeccionista');$('notificacion-logro').classList.remove('visible');void $('notificacion-logro').offsetWidth;$('notificacion-logro').classList.add('visible');play(id==='completo'||id==='perfeccionista'?audio.complete:audio.achievement);clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('notificacion-logro').classList.remove('visible'),id==='completo'||id==='perfeccionista'?6000:3500);renderAchievements();}
+function allOwnedSkins(){return skins.every(s=>state.ownedSkins.includes(s.id))}
+function allShopSkins(){return skins.filter(s=>s.type==='shop').every(s=>state.ownedSkins.includes(s.id))}
+function mostExpensiveNow(cost){const prices=upgrades.map(u=>Math.floor(u.base*Math.pow(1.65,state.upgrades[u.id]||0))).concat(skins.filter(s=>s.type==='shop'&&!state.ownedSkins.includes(s.id)).map(s=>s.price));return cost>=Math.max(...prices)}
+function checkAchievements(){const t=state.totalClicks;if(t>=1)award('primer-click');if(t>=100)award('100-clicks');if(t>=1000)award('1000-clicks');if(t>=10000)award('viciado');if(t>=100000)award('millones');if(ownedUpgradeCount()>0)award('comprador');if(state.prestige>=1)award('en-las-nubes');if(state.prestige>=3)award('multiverso');if(state.prestige>=11)award('deidad');if(state.commandsUsed.includes('enemy'))award('mayor-enemigo');if(state.commandsUsed.length>0){}if(state.battleWins>0)award('viciado-batalla');if(state.mode==='Batalla'||state.battleWins>0)award('batalla');if(allShopSkins()){award('moda');award('coleccionista');}if(allOwnedSkins()&&totalUpgradeLevels()>=upgrades.length)award('necesitas-dedo');if(allOwnedSkins()&&totalUpgradeLevels()>=upgrades.length&&achievementList.filter(a=>a[0]!=='armado'&&a[0]!=='perfeccionista').every(a=>state.unlocked.includes(a[0])))award('armado');if(normalIds.every(id=>state.unlocked.includes(id))) {if(!state.ownedSkins.includes('cat-gold'))state.ownedSkins.push('cat-gold');if(!state.unlocked.includes('completo'))award('completo');}if(secretIds.every(id=>state.unlocked.includes(id)))award('agente');if(totalUpgradeLevels()>=upgrades.length&&upgrades.every(u=>(state.upgrades[u.id]||0)>0)&&allShopSkins())award('pro-clicker');if(state.commandsUsed.length>=commandNames.length&&allOwnedSkins()&&upgrades.every(u=>(state.upgrades[u.id]||0)>0)&&achievementList.filter(a=>a[0]!=='perfeccionista').every(a=>state.unlocked.includes(a[0])))award('perfeccionista');}
+function renderAchievements(){const el=$('lista-logros');if(!el)return;el.innerHTML='';for(const a of achievementList){const got=state.unlocked.includes(a[0]);const secret=!!a[3]&&!got;const card=document.createElement('article');card.className='logro-item '+(got?'':'bloqueado')+(a[0]==='completo'&&got?' logro-final-dorado':'')+(a[0]==='perfeccionista'&&got?' logro-mitico-rojo':'');const img=document.createElement('img');img.alt='';if(secret){img.src='logro-secreto.png';img.onerror=()=>{img.onerror=null;img.src='logro-'+a[0]+'.png';img.onerror=()=>{img.onerror=null;img.src='logro-click.png';img.onerror=()=>{img.onerror=null;img.src='imagen.png'}}}}else{img.src=achievementIcon(a[0]);img.onerror=()=>{img.onerror=null;img.src='logro-click.png';img.onerror=()=>{img.onerror=null;img.src='imagen.png'}}}const info=document.createElement('div');const title=document.createElement('strong');title.textContent=got?a[1]:secret?'Logro Secreto':'Logro bloqueado';const desc=document.createElement('p');desc.textContent=got?a[2]:secret?'Intenta buscar algo interesante que podria hacer eso :v':'Sigue explorando para desbloquearlo.';info.append(title,desc);if(got&&state.achievementDates[a[0]]){const small=document.createElement('small');small.textContent='Desbloqueado: '+state.achievementDates[a[0]];info.append(small)}card.append(img,info);el.append(card)}}
+function renderShop(){const box=$('lista-mejoras'),skinbox=$('lista-skins');if(!box||!skinbox)return;box.innerHTML='';for(const u of upgrades){const level=state.upgrades[u.id]||0;const cost=Math.floor(u.base*Math.pow(1.65,level));const card=document.createElement('article');card.className='tienda-item';const h=document.createElement('h4');h.textContent=u.name;const p=document.createElement('p');p.textContent=u.desc;const small=document.createElement('small');small.textContent=`Nivel comprado: ${level} · Precio: ${cost} monedas`;const buy=document.createElement('button');buy.className='boton';buy.textContent='Comprar nivel';buy.disabled=state.coins<cost;buy.onclick=()=>{if(state.coins<cost)return;const topItem=mostExpensiveNow(cost);state.coins-=cost;state.upgrades[u.id]=level+1;if(!state.equipped.includes(u.id))state.equipped.push(u.id);award('comprador');if(topItem)award('pasto');if(u.id==='lucky'){}checkAchievements();refresh()};const equip=document.createElement('button');equip.className='boton boton-secundario';equip.textContent=equipped(u.id)?'Desequipar':'Equipar';equip.disabled=level===0;equip.onclick=()=>{if(equipped(u.id))state.equipped=state.equipped.filter(x=>x!==u.id);else state.equipped.push(u.id);refresh()};card.append(h,p,small,buy,equip);box.append(card)}
+ skinbox.innerHTML='';for(const s of skins){const card=document.createElement('article');card.className='tienda-item';const h=document.createElement('h4');h.textContent=s.name;const p=document.createElement('p');p.textContent=s.desc;const b=document.createElement('button');b.className='boton';if(state.skin===s.id){b.textContent='Equipada';b.disabled=true}else if(state.ownedSkins.includes(s.id)){b.textContent='Equipar';b.onclick=()=>{state.skin=s.id;refresh()}}else if(s.id==='cat-gold'){b.textContent='Completa los logros normales';b.disabled=true}else if(s.type==='shop'){b.textContent=`Comprar · ${s.price} monedas`;b.disabled=state.coins<s.price;b.onclick=()=>{if(state.coins<s.price)return;const topItem=mostExpensiveNow(s.price);state.coins-=s.price;state.ownedSkins.push(s.id);state.skin=s.id;if(topItem)award('pasto');if(s.id==='wifi-skeleton')award('wifi-fun');checkAchievements();refresh()}}else{b.textContent='No disponible';b.disabled=true}card.append(h,p,b);skinbox.append(card)}}
+function renderStats(){const el=$('contenido-stats');if(!el)return;const rows=[['Clics de esta partida',state.clicks],['Clics históricos',state.totalClicks],['Clics legítimos acumulados',state.legitLifetime],['Clics legítimos en este ciclo',state.legitClicks],['Monedas',state.coins],['Mejor CPS',state.bestCps.toFixed(1)],['Niveles de mejoras',totalUpgradeLevels()],['Mejoras equipadas',state.equipped.length],['Logros obtenidos',state.unlocked.length+'/'+achievementList.length],['Comandos probados',state.commandsUsed.length+'/'+commandNames.length],['Victorias en Batalla',state.battleWins],['Eventos raros',state.rareEvents],['Reinicios',state.resets],['Prestigio',state.prestige+'/11'],['Tiempo jugando',Math.floor(state.playSeconds/60)+' min']];el.innerHTML='';for(const [k,v] of rows){const d=document.createElement('div');d.className='stat-item';const l=document.createElement('span');l.textContent=k;const val=document.createElement('strong');val.textContent=typeof v==='number'?v.toLocaleString('es-MX'):v;d.append(l,val);el.append(d)}}
+function renderPrestige(){const el=$('info-prestigio');if(!el)return;const next=prestigeGoals[state.prestige];el.innerHTML=`<p><strong>Nivel:</strong> ${state.prestige}/11</p><p><strong>Multiplicador permanente:</strong> ×${modeMultiplier().toFixed(2)}</p><p>${next?`Necesitas ${Math.max(0,next-state.legitLifetime).toLocaleString('es-MX')} clics legítimos acumulados para el siguiente nivel (${next}).`:'¡Has alcanzado el prestigio máximo!'}</p>`;$('hacer-prestigio').disabled=!next||state.legitLifetime<next;$('revertir-prestigio').disabled=state.prestige===0;$('resetear-prestigio').disabled=state.prestige===0}
+function openModal(id){$(id)?.classList.add('abierto');$(id)?.setAttribute('aria-hidden','false')};function closeModal(id){$(id)?.classList.remove('abierto');$(id)?.setAttribute('aria-hidden','true')}
+function terminalOut(t,cls=''){const p=document.createElement('p');p.className=cls;p.textContent=t;$('terminal-salida').append(p);$('terminal-salida').scrollTop=$('terminal-salida').scrollHeight}
+function openTerminal(){openModal('terminal');award('newbie');setTimeout(()=>$('entrada-comando').focus(),100)}
+function shutdown(){award('mayor-error');state.clicks=0;state.legitClicks=0;state.resets++;refresh();const screen=$('pantalla-shutdown');screen.classList.add('activa');screen.setAttribute('aria-hidden','false');let n=0;const timer=setInterval(()=>{n=Math.min(100,n+5);$('progreso-shutdown').style.width=n+'%';$('texto-shutdown').textContent='Recopilando información: '+n+'%';if(n>=100){clearInterval(timer);$('texto-broma').classList.add('visible');setTimeout(()=>{screen.classList.remove('activa');screen.setAttribute('aria-hidden','true')},1600)}},state.animations?100:30)}
+function command(raw){const cmd=raw.trim().toLowerCase();if(!cmd)return;terminalOut('guest@gatillo:~$ '+cmd,'eco-comando');if(!state.commandsUsed.includes(cmd)&&commandNames.includes(cmd)){state.commandsUsed.push(cmd);persist()}switch(cmd){case'help':terminalOut('Comandos: help, shutdown, imgreedy, enemy, credits');terminalOut('Algunos comandos secretos no aparecen aquí.');break;case'shutdown':closeModal('terminal');shutdown();break;case'imgreedy':state.clicks+=10000;state.totalClicks+=10000;addCoins(100);terminalOut('¡PUM! +10,000 clics.');checkAchievements();refresh();break;case'enemy':state.skin=dogMode?'cat':'dog-gold';state.enemySwitches++;award('mayor-enemigo');terminalOut('Enemy cambiado.');refresh();break;case'credits':award('responsables');openModal('ventana-creditos');terminalOut('Créditos abiertos.');break;case'rickroll':case'admin':award('rickrolled');terminalOut('Rickroll desactivado: enlace externo eliminado.');break;default:terminalOut('Comando desconocido. Escribe help.')}checkAchievements();refresh()}
+function clickGame(){if(exploding)return;if(state.mode==='Batalla'){battleClick();return}const gain=Math.max(1,Math.floor(clickPower()*modeMultiplier()));state.clicks+=gain;state.totalClicks+=gain;state.legitClicks+=1;state.legitLifetime+=1;addCoins(Math.max(1,Math.floor(gain*(equipped('coin')?1+0.25*(state.upgrades.coin||0):1))));play(dogMode?audio.dog:audio.cat);const now=Date.now();recent=recent.filter(t=>now-t<1000);recent.push(now);cps=recent.length;state.bestCps=Math.max(state.bestCps,cps);if(recent.length>=10)explode();checkAchievements();maybeEvent();refresh()}
+function setMode(mode){state.mode=mode;if(mode==='Batalla'){gameStarted=true;award('batalla');if(!battle.active)startBattle()}else{stopBattle()}refresh()}
+function startBattle(){battle.active=true;battle.enemyIndex=0;battle.enemyHp=battle.enemyMax=100;battle.playerHp=5;battle.hits=0;battle.speed=.7;battle.streak=0;newZone();$('enemigo-nombre').textContent=skins.find(s=>s.id===state.skin)?.name||'Enemigo';$('texto-batalla').textContent='¡Haz clic cuando el indicador esté en la zona roja!';battleLoop()}
+function stopBattle(){battle.active=false;if(battle.raf)cancelAnimationFrame(battle.raf)}
+function newZone(){battle.zoneWidth=Math.max(5,18-battle.hits*.65);battle.zoneStart=5+Math.random()*(90-battle.zoneWidth);$('zona-roja').style.left=battle.zoneStart+'%';$('zona-roja').style.width=battle.zoneWidth+'%'}
+function battleLoop(){if(!battle.active||state.mode!=='Batalla')return;battle.indicator+=battle.direction*battle.speed;if(battle.indicator>=100){battle.indicator=100;battle.direction=-1}else if(battle.indicator<=0){battle.indicator=0;battle.direction=1}$('indicador-batalla').style.left=battle.indicator+'%';battle.raf=requestAnimationFrame(battleLoop)}
+function battleClick(){if(!battle.active)startBattle();const good=battle.indicator>=battle.zoneStart&&battle.indicator<=battle.zoneStart+battle.zoneWidth;if(good){battle.hits++;battle.streak++;battle.speed=Math.min(3.7,battle.speed+.18);newZone();$('imagen-enemigo').classList.remove('tambaleo');void $('imagen-enemigo').offsetWidth;$('imagen-enemigo').classList.add('tambaleo');setTimeout(()=>$('imagen-enemigo').classList.remove('tambaleo'),260);battle.enemyHp-=20+Math.floor(Math.random()*16);$('texto-batalla').textContent=`¡HIT! Combo ${battle.streak} · Vida enemiga ${Math.max(0,battle.enemyHp)}/${battle.enemyMax}`;if(battle.enemyHp<=0)winBattle()}else{battle.playerHp--;battle.streak=0;$('texto-batalla').textContent=`¡Fallaste! El enemigo te golpeó. Vidas: ${battle.playerHp}/5`;if(battle.playerHp<=0){battle.playerHp=5;battle.enemyHp=battle.enemyMax; battle.hits=0;battle.speed=.7;newZone();$('texto-batalla').textContent='¡Te derrotaron! Nuevo intento, vuelve a apuntar.'}}updateBattleUI()}
+function winBattle(){state.battleWins++;state.bestBattleStreak=Math.max(state.bestBattleStreak,battle.hits);const reward=1+Math.floor(Math.random()*10000);state.clicks+=reward;state.totalClicks+=reward;state.legitClicks+=reward;state.legitLifetime+=reward;addCoins(Math.max(1,Math.floor(reward/10)));$('texto-batalla').textContent=`¡VICTORIA! +${reward.toLocaleString('es-MX')} clics. El siguiente enemigo se acerca...`;battle.enemyIndex++;battle.enemyMax=100+25*battle.enemyIndex;battle.enemyHp=battle.enemyMax;battle.playerHp=5;battle.hits=0;battle.speed=.7;battle.streak=0;newZone();const enemySkin=skins[battle.enemyIndex%skins.length];$('enemigo-nombre').textContent=enemySkin.name;$('imagen-enemigo').src=enemySkin.src;$('imagen-enemigo').classList.toggle('skin-dorada',enemySkin.id==='cat-gold'||enemySkin.id==='dog-gold');$('imagen-enemigo').classList.remove('skin-deluxe');checkAchievements();refresh()}
+function updateBattleUI(){if(!$('vida-enemigo-barra'))return;const pct=state.mode==='Batalla'?Math.max(0,battle.enemyHp/battle.enemyMax*100):100;$('vida-enemigo-barra').style.width=pct+'%';if($('vidas-jugador'))$('vidas-jugador').textContent='Vidas: '+battle.playerHp+'/5';if($('zona-roja')){$('zona-roja').style.left=battle.zoneStart+'%';$('zona-roja').style.width=battle.zoneWidth+'%'}}
+function maybeEvent(){const chance=.001+(equipped('lucky')?(state.upgrades.lucky||0)*.0004:0);if(Math.random()<chance){state.rareEvents++;const r=Math.random();if(r<.5){addCoins(250);eventMessage('¡Evento raro! Encontraste 250 monedas.')}else if(r<.8){state.clicks+=100;state.totalClicks+=100;state.legitClicks+=100;state.legitLifetime+=100;eventMessage('¡El Gatillo Cósmico te regaló 100 clics!')}else{eventMessage('El Gatillo Engine acaba de estornudar :v')}checkAchievements()}}
+function eventMessage(msg){state.eventCount++;const el=$('mensaje-aleatorio');el.textContent=msg;el.classList.add('visible');setTimeout(()=>el.classList.remove('visible'),4000)}
+function explode(){if(exploding)return;exploding=true;document.body.classList.add('explotando');$('pantalla-explosion').classList.add('activa');$('pantalla-explosion').setAttribute('aria-hidden','false');$('gif-explosion').src='explosion.gif?x='+Date.now();setTimeout(()=>{exploding=false;document.body.classList.remove('explotando');$('pantalla-explosion').classList.remove('activa');$('pantalla-explosion').setAttribute('aria-hidden','true');recent=[]},2200)}
+$('boton-gato').addEventListener('click',clickGame);
+$('form-usuario').addEventListener('submit',e=>{e.preventDefault();state.user=$('entrada-usuario').value.trim().slice(0,24);if(state.user.toLowerCase()==='pepinillo')award('pepinillo');$('tarjeta-usuario').classList.remove('visible');checkAchievements();refresh()});
+$('cerrar-usuario').addEventListener('click',()=>$('tarjeta-usuario').classList.remove('visible'));
+$('boton-secreto').addEventListener('click',()=>{terminalTaps.push(Date.now());terminalTaps=terminalTaps.filter(t=>Date.now()-t<5000);if(terminalTaps.length>=3){openTerminal();terminalTaps=[]}});
+$('form-terminal').addEventListener('submit',e=>{e.preventDefault();command($('entrada-comando').value);$('entrada-comando').value=''});$('cerrar-terminal').addEventListener('click',() => closeModal('terminal'));$('boton-nota').addEventListener('click',()=>$('lista-comandos').classList.toggle('oculto'));
+$('abrir-logros').addEventListener('click',()=>openModal('panel-logros'));$('abrir-config').addEventListener('click',()=>openModal('panel-config'));$('abrir-tienda').addEventListener('click',()=>openModal('panel-tienda'));$('abrir-stats').addEventListener('click',()=>openModal('panel-stats'));$('abrir-prestigio').addEventListener('click',()=>openModal('panel-prestigio'));document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+$('config-anims').addEventListener('change',e=>{state.animations=e.target.checked;document.body.classList.toggle('sin-animaciones',!state.animations);persist()});$('config-sonidos').addEventListener('change',e=>{state.sounds=e.target.checked;persist()});
+$('reiniciar').addEventListener('click',()=>{if(confirm('¿Reiniciar los clics de esta partida? Las estadísticas históricas y los logros se conservan.')){state.clicks=0;state.legitClicks=0;state.resets++;refresh()}});
+$('reiniciar-logros').addEventListener('click',()=>{if(confirm('¿Reiniciar solo los logros? Esto no borra las estadísticas ni compras.')){state.unlocked=[];state.achievementDates={};persist();renderAchievements()}});
+$('cambiar-modo').addEventListener('click',()=>setMode(state.mode==='Casual'?'Batalla':'Casual'));
+$('hacer-prestigio').addEventListener('click',()=>{const goal=prestigeGoals[state.prestige];if(!goal||state.legitLifetime<goal)return;if(!confirm(`¿Ascender al prestigio ${state.prestige+1}? Se reinician los clics actuales y mejoras compradas, pero se conserva el historial legítimo.`))return;state.prestige++;state.clicks=0;state.legitClicks=0;state.coins=0;state.upgrades={};state.equipped=[];checkAchievements();refresh()});
+$('revertir-prestigio').addEventListener('click',()=>{if(!state.prestige)return;if(confirm('¿Revertir un nivel de prestigio? No recupera los clics ni las mejoras gastadas.')){state.prestige--;refresh()}});$('resetear-prestigio').addEventListener('click',()=>{if(confirm('¿Resetear todos tus niveles de prestigio? No recupera los clics ni mejoras gastadas.')){state.prestige=0;refresh()}});
+setInterval(()=>{const now=Date.now();recent=recent.filter(t=>now-t<1000);cps=recent.length;state.bestCps=Math.max(state.bestCps,cps);state.playSeconds+=1;if(equipped('auto')&&(state.upgrades.auto||0)>0){const gain=state.upgrades.auto;state.clicks+=gain;state.totalClicks+=gain;state.legitClicks+=gain;state.legitLifetime+=gain;addCoins(gain)}checkAchievements();refresh()},1000);
+let progress=0;const loadTimer=setInterval(()=>{progress=Math.min(100,progress+Math.floor(8+Math.random()*18));$('progreso-carga').style.width=progress+'%';$('texto-carga').textContent=`Cargando: web | Proceso: ${progress}%`;if(progress>=100){clearInterval(loadTimer);setTimeout(()=>{$('pantalla-carga').classList.add('carga-saliendo');setTimeout(()=>{$('pantalla-carga').classList.add('carga-oculta');if(!gameStarted)openModal('selector-modo')},850)},250)}},100);
+document.body.classList.toggle('sin-animaciones',!state.animations);if(state.user.toLowerCase()==='pepinillo')award('pepinillo');$('lista-comandos').innerHTML='<strong>Comandos disponibles</strong><p><code>help</code> — muestra la ayuda</p><p><code>shutdown</code> — error falso de Windows</p><p><code>imgreedy</code> — +10,000 clics</p><p><code>enemy</code> — cambia gato/perro</p><p><code>credits</code> — créditos del creador</p>';
+$('elegir-casual').addEventListener('click',()=>{closeModal('selector-modo');gameStarted=true;setMode('Casual');if(!state.user)$('tarjeta-usuario').classList.add('visible')});$('elegir-batalla').addEventListener('click',()=>{closeModal('selector-modo');gameStarted=true;setMode('Batalla');if(!state.user)$('tarjeta-usuario').classList.add('visible')});
+refresh();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+/* Final del juego: pantalla negra, creditos y escena del gato */
+.pantalla-final {
+    position: fixed; inset: 0; z-index: 4000; display: flex; align-items: center; justify-content: center;
+    background: #000; color: #fff; font-family: Arial, sans-serif; overflow: hidden;
+    opacity: 0; visibility: hidden;
+}
+.pantalla-final.saltable { cursor: pointer; }
+.fe { opacity: 0; }
+
+.final-grande {
+    margin: 0; padding: 0 20px; text-align: center; color: #fff;
+    font-size: clamp(34px, 9vw, 84px); font-weight: 700; letter-spacing: .02em;
+}
+.final-aviso {
+    position: absolute; z-index: 3; top: 0; left: 0; right: 0; margin: 0; padding: 16px 12px 22px;
+    text-align: center; font-size: 14px; color: #c4c4d4; pointer-events: none;
+    background: linear-gradient(#000 0%, #000d 65%, transparent 100%);
+}
+
+.final-ventana { position: absolute; inset: 0; overflow: hidden; pointer-events: none; opacity: 0; }
+.final-rollo {
+    position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column;
+    align-items: center; gap: 46px; padding: 0 16px; text-align: center; will-change: transform;
+}
+.cred-bloque { width: min(640px, 100%); }
+.cred-bloque h2 { margin: 0 0 10px; color: var(--morado); font-size: clamp(20px, 4vw, 28px); }
+.cred-bloque p { margin: 6px 0; color: #fff; font-size: clamp(16px, 3vw, 20px); line-height: 1.5; }
+.cred-aka { color: var(--texto-suave) !important; font-size: clamp(14px, 2.6vw, 17px) !important; }
+.cred-etiqueta { color: var(--texto-suave) !important; font-size: 14px !important; margin-bottom: 0 !important; }
+.cred-mensaje { font-style: italic; color: #eee8ff !important; }
+.cred-fila { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
+.cred-fila > div { text-align: left; }
+.cred-duo { display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; }
+.cred-img {
+    display: block; width: 120px; height: 120px; object-fit: cover; margin: 12px auto 0;
+    border-radius: 14px; border: 1px solid #a78bfa55;
+}
+.cred-fila .cred-img { margin: 0; }
+
+.final-capa {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 28px; padding: 20px; text-align: center; pointer-events: none;
+}
+.gracias-titulo { margin: 0; color: var(--morado); font-size: clamp(30px, 7vw, 56px); }
+.gracias-fila { display: flex; justify-content: center; gap: 44px; flex-wrap: wrap; }
+.gracias-item { max-width: 260px; }
+.gracias-item h3 { margin: 0 0 4px; color: #fff; font-size: clamp(20px, 4vw, 26px); }
+.gracias-item p { margin: 6px 0; color: #fff; line-height: 1.5; }
+.gracias-item .cred-img { width: 110px; height: 110px; }
+.final-capa .final-grande + .final-grande { margin-top: 10px; }
+
+.final-gato {
+    position: absolute; display: none; padding: 0; margin: 0; border: 0; background: transparent;
+    border-radius: 22px; cursor: pointer; opacity: 0; -webkit-tap-highlight-color: transparent;
+}
+.final-gato img {
+    display: block; width: 230px; max-width: 58vw; aspect-ratio: 1; object-fit: cover;
+    border-radius: 22px; border: 2px solid #a78bfa55; box-shadow: 0 0 30px #a78bfa20;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.final-gato:hover img { transform: translateY(-6px) scale(1.04); border-color: var(--morado); box-shadow: 0 12px 40px #a78bfa45; }
+.final-gato:active img { transform: scale(.94); }
+
+/* Selector de modo: Batalla bloqueada */
+.selector-botones .boton:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+#nota-batalla { min-height: 18px; margin: 12px 0 0; }
