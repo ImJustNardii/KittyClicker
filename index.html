@@ -78,6 +78,11 @@
 .cred-item .cred-icon { width: 72px; height: 72px; margin: 0 auto 10px; }
 .cred-bloque .cred-precio { color: var(--morado); font-size: 15px; }
 
+/* Notificaciones de logros apiladas (copia de seguridad por si style.css esta en cache) */
+.pila-logros { position: fixed; z-index: 1500; right: 20px; bottom: 20px; width: min(360px, calc(100vw - 32px)); display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; pointer-events: none; }
+.pila-logros .notificacion-logro { position: relative; right: auto; bottom: auto; width: 100%; flex: 0 0 auto; }
+@media (max-width: 650px) { .pila-logros { right: 10px; bottom: 10px; } }
+
 /* Selector de modo: Batalla bloqueada */
 .selector-botones .boton:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 #nota-batalla { min-height: 18px; margin: 12px 0 0; }
