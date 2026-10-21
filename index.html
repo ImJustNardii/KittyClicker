@@ -83,6 +83,116 @@
 .pila-logros .notificacion-logro { position: relative; right: auto; bottom: auto; width: 100%; flex: 0 0 auto; }
 @media (max-width: 650px) { .pila-logros { right: 10px; bottom: 10px; } }
 
+/* Misiones */
+.tabs-misiones { display: flex; gap: 10px; margin-bottom: 10px; }
+.tabs-misiones .boton { flex: 1; }
+.mision-item { padding: 12px; margin: 10px 0; background: #ffffff09; border: 1px solid #ffffff15; border-radius: 12px; }
+.mision-item strong { display: block; }
+.mision-item p { margin: 6px 0 0; color: var(--texto-suave); font-size: 14px; }
+.mision-item small { display: block; margin-top: 8px; color: #b8b8ca; }
+.mision-barra { height: 8px; margin-top: 10px; overflow: hidden; border-radius: 99px; background: #ffffff18; }
+.mision-barra div { height: 100%; background: var(--morado); border-radius: inherit; transition: width .3s ease; }
+.mision-item.hecha { border-color: #a78bfa80; background: #a78bfa14; }
+.mision-item.hecha .mision-barra div { background: #70e06b; }
+
+/* Icono de mejoras */
+.mejora-icon { display: block; width: 56px; height: 56px; margin: 0 auto 4px; object-fit: contain; border-radius: 10px; }
+
+/* Evento Las Uan Tu Tri: imagen sobre el gato */
+.boton-gato { position: relative; }
+.evento-imagen { position: absolute; inset: 18%; width: 64%; height: 64%; object-fit: cover; border-radius: 22px; opacity: 0; pointer-events: none; transition: opacity 1.5s ease, transform .25s ease; }
+.evento-imagen.activo { opacity: 1; }
+.boton-gato:hover .evento-imagen { transform: translateY(-6px) scale(1.04); }
+.boton-gato:active .evento-imagen { transform: scale(.94); }
+
+/* Evento Las Uan Tu Tri: web en grises/negros + lluvia de pngs */
+.evento-gris {
+    position: fixed; inset: 0; z-index: 3990; pointer-events: none; opacity: 0;
+    background: rgba(0, 0, 0, .28);
+    -webkit-backdrop-filter: grayscale(1) contrast(1.15) brightness(.7);
+    backdrop-filter: grayscale(1) contrast(1.15) brightness(.7);
+    transition: opacity 1.5s ease;
+}
+.evento-gris.activo { opacity: 1; transition-duration: .6s; }
+.evento-lluvia { position: fixed; inset: 0; z-index: 3995; pointer-events: none; overflow: hidden; }
+.evento-lluvia img {
+    position: absolute; top: 0; height: auto; object-fit: contain; will-change: transform;
+}
+
+/* Arcoiris (logro Las 1:23 y boton del evento) */
+@keyframes arcoiris-giro { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
+.logro-item.logro-arcoiris, .notificacion-logro.logro-arcoiris {
+    border: 1px solid #fff; background: linear-gradient(120deg, #b3123a, #b36a12, #9aa312, #12a352, #1286b3, #5a3fb3, #b312a0);
+    box-shadow: 0 0 22px #ffffff55; animation: arcoiris-giro 4s linear infinite;
+}
+.logro-arcoiris strong, .logro-arcoiris p, .logro-arcoiris small { color: #fff !important; text-shadow: 0 1px 3px #000a; }
+.logro-arcoiris img { border: 2px solid #fff; }
+.boton-arcoiris, .boton-arcoiris:hover {
+    color: #fff; text-shadow: 0 1px 3px #000a; border-color: #ffffffaa;
+    background: linear-gradient(120deg, #b3123a, #b36a12, #9aa312, #12a352, #1286b3, #5a3fb3, #b312a0);
+    animation: arcoiris-giro 4s linear infinite;
+}
+.boton-arcoiris:disabled { animation: none; filter: grayscale(.6); }
+@media (prefers-reduced-motion: reduce) { .logro-arcoiris, .boton-arcoiris { animation: none !important; } }
+
+/* Clic critico */
+.radical {
+    position: fixed; inset: 0; z-index: 3500; display: flex; align-items: center; justify-content: center;
+    background: rgba(220, 20, 20, .5); opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .45s ease, visibility 0s linear .45s;
+}
+.radical.activo { opacity: 1; visibility: visible; transition: opacity .06s ease; }
+.radical span {
+    font: 900 clamp(46px, 14vw, 150px)/1 Arial, sans-serif; color: #fff; letter-spacing: .03em; text-align: center;
+    text-shadow: 0 0 30px #ff0000, 0 6px 0 #7a0000; transform: rotate(-6deg) scale(.6);
+    transition: transform .25s cubic-bezier(.2, 1.6, .4, 1);
+}
+.radical.activo span { transform: rotate(-6deg) scale(1); animation: radical-temblor .45s linear; }
+body.critico .contenedor { animation: radical-vibrar .45s linear; }
+@keyframes radical-vibrar {
+    0%, 100% { transform: translate(0, 0); } 10% { transform: translate(-10px, 6px); } 20% { transform: translate(9px, -7px); }
+    30% { transform: translate(-8px, -6px); } 40% { transform: translate(10px, 5px); } 50% { transform: translate(-9px, 7px); }
+    60% { transform: translate(8px, -5px); } 70% { transform: translate(-6px, 4px); } 80% { transform: translate(6px, -4px); } 90% { transform: translate(-3px, 2px); }
+}
+@keyframes radical-temblor {
+    0%, 100% { transform: rotate(-6deg) scale(1); } 25% { transform: rotate(-8deg) scale(1.05); } 50% { transform: rotate(-4deg) scale(1); } 75% { transform: rotate(-7deg) scale(1.04); }
+}
+
+/* Reproductor de musica */
+.reproductor { position: fixed; z-index: 1250; top: 12px; right: 12px; display: none; }
+.reproductor.rp-modo-mini, .reproductor.rp-modo-full { display: block; }
+.reproductor.rp-modo-mini .rp-card { display: none; }
+.reproductor.rp-modo-full .rp-mini { display: none; }
+.rp-card { width: min(290px, calc(100vw - 24px)); padding: 10px 12px 12px; background: #1c1c2bf5; border: 1px solid #ffffff20; border-radius: 16px; box-shadow: 0 20px 70px #0008; backdrop-filter: blur(14px); }
+.rp-fila { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rp-titulo { min-width: 0; overflow: hidden; color: #eee8ff; font-size: 13px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; }
+.rp-tiempo { flex: 0 0 auto; color: var(--texto-suave); font-size: 12px; font-variant-numeric: tabular-nums; }
+.rp-linea { display: block; width: 100%; height: 22px; margin: 4px 0 6px; padding: 0; border: 0; background: transparent; border-radius: 0; cursor: pointer; -webkit-appearance: none; appearance: none; --pct: 0%; }
+.rp-linea:focus { outline: none; }
+.rp-linea:focus-visible { outline: 2px solid #a78bfa; outline-offset: 2px; }
+.rp-linea::-webkit-slider-runnable-track { height: 6px; border-radius: 99px; background: linear-gradient(90deg, var(--morado) var(--pct), #ffffff25 var(--pct)); }
+.rp-linea::-moz-range-track { height: 6px; border-radius: 99px; background: linear-gradient(90deg, var(--morado) var(--pct), #ffffff25 var(--pct)); }
+.rp-linea::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -4px; border-radius: 50%; background: #fff; border: 2px solid var(--morado); }
+.rp-linea::-moz-range-thumb { width: 10px; height: 10px; border-radius: 50%; background: #fff; border: 2px solid var(--morado); }
+.rp-botones { display: flex; justify-content: center; gap: 8px; }
+.rp-btn { width: 40px; height: 40px; padding: 0; display: grid; place-items: center; color: #fff; background: #ffffff0c; border: 1px solid #ffffff25; border-radius: 12px; cursor: pointer; transition: background .2s, transform .2s; -webkit-tap-highlight-color: transparent; }
+.rp-btn:hover { background: #a78bfa30; transform: translateY(-2px); }
+.rp-btn-play { background: #a78bfa33; border-color: #a78bfa77; }
+.rp-btn.rp-mini { width: 44px; height: 44px; background: #1c1c2bf5; box-shadow: 0 10px 35px #0006; }
+.rp-btn .ico-b { display: none; }
+.rp-btn.activo .ico-a { display: none; }
+.rp-btn.activo .ico-b { display: block; }
+@media (max-width: 900px) and (min-width: 651px) { body.rp-completo .contenedor { margin-top: 110px; } }
+@media (max-width: 650px) {
+    .reproductor { top: 8px; right: 8px; }
+    .rp-card { width: min(270px, calc(100vw - 16px)); }
+    .rp-btn { width: 44px; height: 44px; }
+    body.rp-completo .contenedor { margin-top: 122px; }
+    body.rp-mini .contenedor { margin-top: 64px; }
+    body.rp-completo .mensaje-aleatorio { top: 126px; }
+    body.rp-mini .mensaje-aleatorio { top: 62px; }
+}
+
 /* Selector de modo: Batalla bloqueada */
 .selector-botones .boton:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 #nota-batalla { min-height: 18px; margin: 12px 0 0; }
@@ -118,6 +228,7 @@
         <div class="fila-gatito">
             <button id="boton-gato" class="boton-gato" type="button" aria-label="Reproducir sonidito">
                 <img src="imagen.png" alt="Imagen interactiva" id="imagen">
+                <img src="evento-123.png" alt="" id="evento-imagen" class="evento-imagen" onerror="this.style.display='none'">
             </button>
 
             <button id="boton-secreto" class="icono-secreto" type="button" aria-label="Icono secreto" title="...">
@@ -136,6 +247,7 @@
             </button>
             <button id="abrir-config" class="boton" type="button">Configuración</button>
             <button id="abrir-tienda" class="boton" type="button">Tienda</button>
+            <button id="abrir-misiones" class="boton" type="button">Misiones</button>
             <button id="abrir-stats" class="boton" type="button">Estadísticas</button>
             <button id="abrir-prestigio" class="boton" type="button">Prestigio</button>
             <button id="cambiar-modo" class="boton" type="button">Modo: Casual</button>
@@ -229,7 +341,30 @@
 
     <!-- Toast de logros -->
     <div id="pila-logros" class="pila-logros" aria-live="polite"></div>
+    <div id="radical" class="radical" aria-hidden="true"><span>RADICAL!</span></div>
+    <div id="reproductor" class="reproductor" role="region" aria-label="Reproductor de musica">
+        <button id="rp-mini" class="rp-btn rp-mini" type="button" aria-label="Reproducir musica"><svg class="ico-a" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+        <div id="rp-card" class="rp-card">
+            <div class="rp-fila"><span id="rp-titulo" class="rp-titulo">Rola</span><span id="rp-tiempo" class="rp-tiempo">0:00 / 0:00</span></div>
+            <input id="rp-linea" class="rp-linea" type="range" min="0" max="1000" value="0" step="1" aria-label="Linea de tiempo de la rola">
+            <div class="rp-botones">
+                <button id="rp-prev" class="rp-btn" type="button" aria-label="Rola anterior"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18 5v14l-9-7zM6 5h2v14H6z"/></svg></button>
+                <button id="rp-play" class="rp-btn rp-btn-play" type="button" aria-label="Reproducir"><svg class="ico-a" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="ico-b" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+                <button id="rp-next" class="rp-btn" type="button" aria-label="Siguiente rola"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6 5v14l9-7zM16 5h2v14h-2z"/></svg></button>
+                <button id="rp-mute" class="rp-btn" type="button" aria-label="Silenciar" aria-pressed="false">
+                    <svg class="ico-a" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M15.5 8.5a5 5 0 010 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                    <svg class="ico-b" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <audio id="rp-audio" preload="none" muted></audio>
+    <audio id="sonido-radical" src="radical.mp3" preload="auto"></audio>
 
+    <section id="pregunta-musica" class="ventana-modal panel selector-modo" aria-hidden="true">
+        <h2>¿Quieres activar el reproductor de musica?</h2>
+        <div class="selector-botones"><button id="musica-si" class="boton" type="button">Sip</button><button id="musica-no" class="boton" type="button">Nope</button></div>
+    </section>
     <section id="selector-modo" class="ventana-modal panel selector-modo" aria-hidden="true">
         <h2>Bienvenido a The Clickening :v</h2><p>Elige cómo quieres jugar. Puedes cambiar de modo cuando quieras.</p>
         <div class="selector-botones"><button id="elegir-casual" class="boton" type="button">Casual</button><button id="elegir-batalla" class="boton" type="button">Batalla</button></div>
@@ -239,7 +374,9 @@
         <header class="modal-cabecera"><h2>Tienda de Gatillo</h2><button class="cerrar-mini cerrar-modal" data-close="panel-tienda" aria-label="Cerrar tienda">×</button></header>
         <p>Gasta monedas ganadas al jugar. Las mejoras se conservan en este navegador.</p>
         <div id="lista-mejoras" class="rejilla-tienda"></div>
-        <h3>Skins</h3><div id="lista-skins" class="rejilla-tienda"></div>
+        <h3>Skins de gato</h3><div id="lista-skins" class="rejilla-tienda"></div>
+        <h3 id="titulo-skins-perro" hidden>Skins de perro</h3><div id="lista-skins-perro" class="rejilla-tienda" style="display:none"></div>
+        <h3 id="titulo-eventos" hidden>Eventos</h3><div id="lista-eventos" class="rejilla-tienda" style="display:none"></div>
     </section>
     <section id="panel-stats" class="ventana-modal panel" aria-hidden="true">
         <header class="modal-cabecera"><h2>Estadísticas</h2><button class="cerrar-mini cerrar-modal" data-close="panel-stats" aria-label="Cerrar estadísticas">×</button></header>
@@ -249,6 +386,13 @@
         <header class="modal-cabecera"><h2>Prestigio</h2><button class="cerrar-mini cerrar-modal" data-close="panel-prestigio" aria-label="Cerrar prestigio">×</button></header>
         <p>El prestigio reinicia tus clics y mejoras, pero conserva logros y estadísticas históricas. A cambio obtienes un multiplicador permanente.</p>
         <div id="info-prestigio"></div><button id="hacer-prestigio" class="boton" type="button">Ascender</button> <button id="revertir-prestigio" class="boton boton-secundario" type="button">Revertir un nivel</button> <button id="resetear-prestigio" class="boton boton-secundario" type="button">Resetear prestigio</button>
+    </section>
+
+    <section id="panel-misiones" class="ventana-modal panel" aria-hidden="true">
+        <header class="modal-cabecera"><h2>Misiones</h2><button class="cerrar-mini cerrar-modal" data-close="panel-misiones" aria-label="Cerrar misiones">×</button></header>
+        <div class="tabs-misiones"><button id="tab-diarias" class="boton" type="button">Diarias</button><button id="tab-constantes" class="boton boton-secundario" type="button">Constantes</button></div>
+        <p id="nota-misiones" class="nota-config"></p>
+        <div id="lista-misiones"></div>
     </section>
 
     <!-- Final del juego -->
@@ -313,6 +457,10 @@
     <audio id="sonido-logro" src="logro.mp3" preload="auto"></audio>
     <audio id="sonido-logro-completo" src="logro-completo.mp3" preload="auto"></audio>
     <audio id="musica-final" src="musica-final.mp3" preload="auto" loop></audio>
+    <audio id="sonido-evento" src="evento-123.mp3" preload="auto" loop></audio>
+
+    <div id="evento-gris" class="evento-gris" aria-hidden="true"></div>
+    <div id="evento-lluvia" class="evento-lluvia" aria-hidden="true"></div>
 
     <script>
 (() => {
@@ -329,12 +477,13 @@ const state={
  clicks:sint(read('clicks',0)), legitClicks:num(read('legitClicks',0)), legitLifetime:num(read('legitLifetime',0)), totalClicks:num(read('totalClicks',0)), coins:num(read('coins',0)),
  upgrades:read('upgrades',{}), equipped:read('equipped',[]), unlocked:read('logros',[]), user:read('user',''), animations:read('anims',true), sounds:read('sonidos',true), mode:read('mode','Casual'),
  prestige:num(read('prestige',0)), skin:read('skin','cat'), ownedSkins:read('ownedSkins',['cat']), playSeconds:num(read('playSeconds',0)), bestCps:num(read('bestCps',0)), commandsUsed:read('commandsUsed',[]), eventCount:num(read('eventCount',0)), enemySwitches:num(read('enemySwitches',0)), resets:num(read('resets',0)), battleWins:num(read('battleWins',0)), rareEvents:num(read('rareEvents',0)), bestBattleStreak:num(read('bestBattleStreak',0)), achievementDates:read('achievementDates',{}),
- gameFinished:!!read('gameFinished',false), battleUnlocked:!!read('battleUnlocked',false)
+ gameFinished:!!read('gameFinished',false), battleUnlocked:!!read('battleUnlocked',false),
+ daily:read('daily',null), missionsDone:read('missionsDone',[]), coinsEarned:num(read('coinsEarned',0)), manualClicks:num(read('manualClicks',0)), crits:num(read('crits',0)), purchases:num(read('purchases',0)), missionCount:num(read('missionCount',0)), eventCheckpoint:read('eventCheckpoint',null)
 };
 for(const k of ['upgrades','equipped','unlocked','ownedSkins','commandsUsed','achievementDates'])if(!state[k]||typeof state[k] !== (Array.isArray(state[k])?'object':'object'))state[k]=Array.isArray(state[k])?[]:{};
 if(!Array.isArray(state.unlocked))state.unlocked=[];if(!Array.isArray(state.ownedSkins))state.ownedSkins=['cat'];if(!Array.isArray(state.equipped))state.equipped=[];if(!Array.isArray(state.commandsUsed))state.commandsUsed=[];if(!state.upgrades||typeof state.upgrades!=='object')state.upgrades={};
 state.modeChosen=modeWasChosen===null?(state.totalClicks>0||state.user!==''):!!modeWasChosen;
-if(state.enemyDog===null)state.enemyDog=state.skin==='dog-gold';state.enemyDog=!!state.enemyDog;if(state.enemyDog&&!state.ownedSkins.includes('dog-gold'))state.ownedSkins.push('dog-gold');if(state.skin==='dog-gold'&&!state.enemyDog)state.skin='cat';
+if(state.enemyDog===null)state.enemyDog=state.skin==='dog-gold'||state.skin==='dog';state.enemyDog=!!state.enemyDog;if(!Array.isArray(state.missionsDone))state.missionsDone=[];
 state.battleUnlocked=state.battleUnlocked||state.totalClicks>=10000;if(!state.battleUnlocked&&state.mode==='Batalla')state.mode='Casual';
 if(state.unlocked.includes('perfeccionista'))state.gameFinished=true;
 const audio={cat:$('sonido'),dog:$('sonido-perro'),achievement:$('sonido-logro'),complete:$('sonido-logro-completo'),music:$('musica-final')};
@@ -349,12 +498,21 @@ const upgrades=[
 {id:'lucky',name:'Amuleto de suerte',desc:'Aumenta un poco la probabilidad de eventos raros.',base:1800,effect:'lucky'}
 ];
 const skins=[
-{id:'cat',name:'Gatito clásico',src:'imagen.png',price:0,type:'default',desc:'La leyenda original.'},
-{id:'cat-cool',name:'Gatito deluxe',src:'gato-deluxe.png',price:500,type:'shop',desc:'Que feria, esto esta demasiado feria :v'},
-{id:'cat-gold',name:'Gatito dorado',src:'imagen.png',price:0,type:'achievement',desc:'Realmente andas viciado :v'},
-{id:'dog-gold',name:'Perro dorado',src:'perro.png',price:0,type:'enemy',desc:'La única skin de perro; una versión dorada del enemigo.'},
-{id:'wifi-skeleton',name:'WifiSkeleton',src:'wifi-skeleton.png',price:1800,type:'shop',desc:'Im broken, your heart is frozen, its froze.'}
+{id:'cat',name:'Gatito clásico',src:'imagen.png',price:0,type:'default',animal:'cat',desc:'La leyenda original.'},
+{id:'cat-cool',name:'Gatito deluxe',src:'gato-deluxe.png',price:500,type:'shop',animal:'cat',desc:'Que feria, esto esta demasiado feria :v'},
+{id:'cat-adult',name:'Adulto',src:'gato-adulto.png',price:10000,type:'shop',animal:'cat',desc:'Si que ha crecido :v'},
+{id:'cat-pana',name:'El pana miguel',src:'gato-pana-miguel.png',price:100000,type:'shop',animal:'cat',desc:'Que fresco... :v'},
+{id:'wifi-skeleton',name:'WifiSkeleton',src:'wifi-skeleton.png',price:1800,type:'shop',animal:'cat',desc:'Im broken, your heart is frozen, its froze.'},
+{id:'cat-gold',name:'Gatito dorado',src:'imagen.png',price:0,type:'achievement',animal:'cat',desc:'Realmente andas viciado :v'},
+{id:'cat-detective',name:'Gatito detective',src:'gato-detective.png',price:0,type:'secret',animal:'cat',desc:'El gatito de la CIA :v'},
+{id:'dog',name:'Perro',src:'perro.png',price:0,type:'default',animal:'dog',desc:'El enemigo de siempre, ahora de tu lado.'},
+{id:'dog-cheems',name:'Cheems',src:'perro-cheems.png',price:50000,type:'shop',animal:'dog',desc:'Que buen momo :v'},
+{id:'dog-hachiko',name:'Hachiko',src:'perro-hachiko.png',price:123000,type:'shop',animal:'dog',desc:'Una historia real..'},
+{id:'dog-gold',name:'Perro dorado',src:'perro.png',price:0,type:'achievement',animal:'dog',desc:'Una versión dorada del perro para quien completa los logros normales.'}
 ];
+if(state.enemyDog&&!state.ownedSkins.includes('dog'))state.ownedSkins.push('dog');
+if(!state.enemyDog&&skins.some(k=>k.id===state.skin&&k.animal==='dog'))state.skin='cat';
+if(typeof state.eventCheckpoint!=='number')state.eventCheckpoint=Math.floor(state.totalClicks/10000);
 const achievementList=[
 ['primer-click','Empiezan los clicks.','Tu primer click, nada mal :v'],
 ['100-clicks','Centenario','Consigue 100 clics totales.'],
@@ -383,67 +541,179 @@ const achievementList=[
 ['pepinillo','Pepinillo','Soy un pepinillo morty! :v',true],
 ['wifi-fun','Im not tryna ruin your fun.','You are just a little bit late, i guess youre already done.',true],
 ['como-haces-eso','¿Como siquiera haces eso?','No puede ser brochachin..',true],
+['calendario','Calendario','Completaste tu primera mision.'],
+['agenda-llena','Agenda llena','Completaste toda una pagina de misiones'],
+['reloj','¿Como funciona un reloj?','Realmente se me ha olvidado...'],
+['las-123','Las 1:23','SON LAS UAN TU TRI LAS UAN TU TRI LAS UAN TU TRI :V',true],
 ['perfeccionista','Perfeccionista','Realmente te gusta esto eh?']
 ];
 const normalIds=achievementList.filter(a=>!a[3]&&a[0]!=='perfeccionista'&&a[0]!=='completo'&&a[0]!=='agente'&&a[0]!=='necesitas-dedo'&&a[0]!=='armado').map(a=>a[0]);
-const secretIds=['rickrolled','pepinillo','wifi-fun'];
+const secretIds=achievementList.filter(a=>a[3]).map(a=>a[0]);
 const commandNames=['help','shutdown','imgreedy','enemy','credits','rickroll','admin','imanoob'];
 let achKey='',shopKey='',toastQueue=[],resetting=false,shuttingDown=false,recent=[],terminalTaps=[],toastTimer=null,exploding=false,cps=0,dogMode=false,gameStarted=false;
 let ending=false,endSkip=false,endWake=null,skipOn=false,musicFade=0,noticeTimer=null;
+let eventActive=false,eventTimers=[],rainTimer=0,radicalTimer=0,missionTab='daily',missKey='';
 let battle={active:false,enemyIndex:0,enemyHp:100,enemyMax:100,playerHp:5,indicator:0,direction:1,speed:0.7,zoneStart:35,zoneWidth:18,hits:0,raf:0,streak:0};
 const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
-function persist(){if(resetting)return;const data={clicks:state.clicks,legitClicks:state.legitClicks,legitLifetime:state.legitLifetime,totalClicks:state.totalClicks,coins:state.coins,upgrades:state.upgrades,equipped:state.equipped,logros:state.unlocked,user:state.user,anims:state.animations,sonidos:state.sounds,mode:state.mode,prestige:state.prestige,skin:state.skin,ownedSkins:state.ownedSkins,playSeconds:state.playSeconds,bestCps:state.bestCps,commandsUsed:state.commandsUsed,eventCount:state.eventCount,enemySwitches:state.enemySwitches,resets:state.resets,battleWins:state.battleWins,rareEvents:state.rareEvents,bestBattleStreak:state.bestBattleStreak,achievementDates:state.achievementDates,enemyDog:state.enemyDog,noteUnlocked:state.noteUnlocked,gameFinished:state.gameFinished,battleUnlocked:state.battleUnlocked};for(const [k,v] of Object.entries(data))save(k,v);try{localStorage.setItem('epicweb-clics',String(state.clicks));localStorage.setItem('epicweb-user',state.user)}catch{}}
+function persist(){if(resetting)return;const data={clicks:state.clicks,legitClicks:state.legitClicks,legitLifetime:state.legitLifetime,totalClicks:state.totalClicks,coins:state.coins,upgrades:state.upgrades,equipped:state.equipped,logros:state.unlocked,user:state.user,anims:state.animations,sonidos:state.sounds,mode:state.mode,prestige:state.prestige,skin:state.skin,ownedSkins:state.ownedSkins,playSeconds:state.playSeconds,bestCps:state.bestCps,commandsUsed:state.commandsUsed,eventCount:state.eventCount,enemySwitches:state.enemySwitches,resets:state.resets,battleWins:state.battleWins,rareEvents:state.rareEvents,bestBattleStreak:state.bestBattleStreak,achievementDates:state.achievementDates,enemyDog:state.enemyDog,noteUnlocked:state.noteUnlocked,gameFinished:state.gameFinished,battleUnlocked:state.battleUnlocked,daily:state.daily,missionsDone:state.missionsDone,coinsEarned:state.coinsEarned,manualClicks:state.manualClicks,crits:state.crits,purchases:state.purchases,missionCount:state.missionCount,eventCheckpoint:state.eventCheckpoint};for(const [k,v] of Object.entries(data))save(k,v);try{localStorage.setItem('epicweb-clics',String(state.clicks));localStorage.setItem('epicweb-user',state.user)}catch{}}
 function play(a){if(!state.sounds||!a)return;try{a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch{}}
 function equipped(id){return state.equipped.includes(id)}
 function ownedUpgradeCount(){return upgrades.filter(u=>(state.upgrades[u.id]||0)>0).length}
 function totalUpgradeLevels(){return upgrades.reduce((n,u)=>n+(state.upgrades[u.id]||0),0)}
 function clickPower(){let p=1+(equipped('click1')?(state.upgrades.click1||0):0)+5*(equipped('click5')?(state.upgrades.click5||0):0)+20*(equipped('click20')?(state.upgrades.click20||0):0);if(equipped('multiplier'))p*=1+0.25*(state.upgrades.multiplier||0);return p}
-function addCoins(n){state.coins+=Math.max(0,Math.floor(n))}
+function addCoins(n){const v=Math.max(0,Math.floor(n));state.coins+=v;state.coinsEarned+=v;D().coins+=v}
 function modeMultiplier(){return 1+state.prestige*.12}
 function currentSkin(){return skins.find(s=>s.id===state.skin)||skins[0]}
-function renderSkin(){const s=currentSkin();dogMode=s.id==='dog'||s.id==='dog-gold';$('imagen').src=s.src;$('imagen').alt=dogMode?'Perro interactivo':'Gatito interactivo';$('imagen').classList.toggle('skin-dorada',s.id==='cat-gold'||s.id==='dog-gold');$('imagen').classList.remove('skin-deluxe');$('boton-gato').setAttribute('aria-label',dogMode?'Golpear al perro':'Hacer clic al gatito')}
-function refresh(){$('boton-nota').hidden=!state.noteUnlocked;if(!state.noteUnlocked)$('lista-comandos').classList.add('oculto');$('contador').textContent=state.clicks.toLocaleString('es-MX');$('monedas').textContent=state.coins.toLocaleString('es-MX');$('nivel-prestigio').textContent=state.prestige;$('cps').textContent=cps.toFixed(1);$('saludo-usuario').textContent=state.user?`Qué onda, ${state.user} :v`:'Pon tu nombre para guardar tu perfil.';$('cambiar-modo').textContent='Modo: '+state.mode;$('panel-batalla').hidden=state.mode!=='Batalla';$('config-anims').checked=state.animations;$('config-sonidos').checked=state.sounds;$('elegir-batalla').disabled=!state.battleUnlocked;$('nota-batalla').textContent=state.battleUnlocked?'':'Batalla se desbloquea al llegar a 10,000 clics en total.';renderSkin();renderAchievements();renderShop();renderStats();renderPrestige();updateBattleUI();persist()}
+function renderSkin(){const s=currentSkin();dogMode=s.animal==='dog';const im=$('imagen');if(im.dataset.s!==s.src){im.dataset.s=s.src;im.onerror=()=>{im.onerror=null;im.src='imagen.png'};im.src=s.src}$('imagen').alt=dogMode?'Perro interactivo':'Gatito interactivo';$('imagen').classList.toggle('skin-dorada',s.id==='cat-gold'||s.id==='dog-gold');$('imagen').classList.remove('skin-deluxe');$('boton-gato').setAttribute('aria-label',dogMode?'Golpear al perro':'Hacer clic al gatito')}
+function refresh(){$('boton-nota').hidden=!state.noteUnlocked;if(!state.noteUnlocked)$('lista-comandos').classList.add('oculto');$('contador').textContent=state.clicks.toLocaleString('es-MX');$('monedas').textContent=state.coins.toLocaleString('es-MX');$('nivel-prestigio').textContent=state.prestige;$('cps').textContent=cps.toFixed(1);$('saludo-usuario').textContent=state.user?`Qué onda, ${state.user} :v`:'Pon tu nombre para guardar tu perfil.';$('cambiar-modo').textContent='Modo: '+state.mode;$('panel-batalla').hidden=state.mode!=='Batalla';$('config-anims').checked=state.animations;$('config-sonidos').checked=state.sounds;$('elegir-batalla').disabled=!state.battleUnlocked;$('nota-batalla').textContent=state.battleUnlocked?'':'Batalla se desbloquea al llegar a 10,000 clics en total.';renderSkin();renderAchievements();renderShop();renderStats();renderPrestige();renderMissions();updateBattleUI();persist()}
 function achievementIcon(id){return id==='wifi-fun'?'logro-wifi-fun.png':`logro-${id}.png`}
 function showToast(id,a){toastQueue.push([id,a]);pumpToasts()}
-function pumpToasts(){const pila=$('pila-logros');if(!pila)return;while(toastQueue.length&&pila.children.length<4){const [id,a]=toastQueue.shift();const gold=id==='completo',red=id==='perfeccionista';const toast=document.createElement('div');toast.className='notificacion-logro'+(gold?' logro-dorado':'')+(red?' logro-mitico-rojo':'');const img=document.createElement('img');img.alt='';img.onerror=()=>{img.onerror=()=>{img.onerror=null;img.src='imagen.png'};img.src='logro-click.png'};img.src=achievementIcon(id);const box=document.createElement('div');const t=document.createElement('strong');t.textContent='Logro desbloqueado';const p=document.createElement('p');p.textContent=a[1];box.append(t,p);toast.append(img,box);pila.append(toast);void toast.offsetWidth;toast.classList.add('visible');if(!ending)play(gold||red?audio.complete:audio.achievement);setTimeout(()=>{toast.classList.remove('visible');setTimeout(()=>{toast.remove();pumpToasts()},450)},gold||red?6000:3500)}}
+function pumpToasts(){const pila=$('pila-logros');if(!pila)return;while(toastQueue.length&&pila.children.length<4){const [id,a]=toastQueue.shift();const gold=id==='completo',red=id==='perfeccionista';const toast=document.createElement('div');toast.className='notificacion-logro'+(gold?' logro-dorado':'')+(red?' logro-mitico-rojo':'')+(id==='las-123'?' logro-arcoiris':'');const img=document.createElement('img');img.alt='';img.onerror=()=>{img.onerror=()=>{img.onerror=null;img.src='imagen.png'};img.src='logro-click.png'};img.src=achievementIcon(id);const box=document.createElement('div');const t=document.createElement('strong');t.textContent='Logro desbloqueado';const p=document.createElement('p');p.textContent=a[1];box.append(t,p);toast.append(img,box);pila.append(toast);void toast.offsetWidth;toast.classList.add('visible');if(!ending)play(gold||red||id==='las-123'?audio.complete:audio.achievement);setTimeout(()=>{toast.classList.remove('visible');setTimeout(()=>{toast.remove();pumpToasts()},450)},gold||red||id==='las-123'?6000:3500)}}
 function award(id){if(state.unlocked.includes(id))return;const a=achievementList.find(x=>x[0]===id);if(!a)return;state.unlocked.push(id);state.achievementDates[id]=new Date().toLocaleDateString('es-MX');if(id==='perfeccionista')state.gameFinished=true;persist();showToast(id,a);renderAchievements();if(id==='perfeccionista')setTimeout(()=>startEnding(false),3500)}
 function allOwnedSkins(){return skins.every(s=>state.ownedSkins.includes(s.id))}
-function allShopSkins(){return skins.filter(s=>s.type==='shop').every(s=>state.ownedSkins.includes(s.id))}
-function mostExpensiveNow(cost){const prices=upgrades.map(u=>Math.floor(u.base*Math.pow(1.65,state.upgrades[u.id]||0))).concat(skins.filter(s=>s.type==='shop'&&!state.ownedSkins.includes(s.id)).map(s=>s.price));return cost>=Math.max(...prices)}
-function checkAchievements(){if(!state.battleUnlocked&&state.totalClicks>=10000){state.battleUnlocked=true;notice('Modo Batalla desbloqueado.')}const t=state.totalClicks;if(state.commandsUsed.length>0)award('newbie');if(state.commandsUsed.includes('shutdown'))award('mayor-error');if(state.commandsUsed.includes('credits'))award('responsables');if(state.commandsUsed.includes('rickroll')||state.commandsUsed.includes('admin'))award('rickrolled');if(state.user.toLowerCase()==='pepinillo')award('pepinillo');if(state.ownedSkins.includes('wifi-skeleton'))award('wifi-fun');if(t>=1)award('primer-click');if(t>=100)award('100-clicks');if(t>=1000)award('1000-clicks');if(t>=10000)award('viciado');if(t>=100000)award('millones');if(ownedUpgradeCount()>0)award('comprador');if(state.prestige>=1)award('en-las-nubes');if(state.prestige>=3)award('multiverso');if(state.prestige>=11)award('deidad');if(state.commandsUsed.includes('enemy'))award('mayor-enemigo');if(state.commandsUsed.length>0){}if(state.battleWins>0)award('viciado-batalla');if(state.mode==='Batalla'||state.battleWins>0)award('batalla');if(allShopSkins()){award('moda');award('coleccionista');}if(allOwnedSkins()&&totalUpgradeLevels()>=upgrades.length)award('necesitas-dedo');if(allOwnedSkins()&&totalUpgradeLevels()>=upgrades.length&&achievementList.filter(a=>a[0]!=='armado'&&a[0]!=='perfeccionista').every(a=>state.unlocked.includes(a[0])))award('armado');if(normalIds.every(id=>state.unlocked.includes(id))) {if(!state.ownedSkins.includes('cat-gold'))state.ownedSkins.push('cat-gold');if(!state.unlocked.includes('completo'))award('completo');}if(secretIds.every(id=>state.unlocked.includes(id)))award('agente');if(totalUpgradeLevels()>=upgrades.length&&upgrades.every(u=>(state.upgrades[u.id]||0)>0)&&allShopSkins())award('pro-clicker');if(achievementList.filter(a=>a[0]!=='perfeccionista').every(a=>state.unlocked.includes(a[0])))award('perfeccionista');}
-function renderAchievements(){const el=$('lista-logros');if(!el)return;const key=state.unlocked.join(',')+JSON.stringify(state.achievementDates);if(key===achKey&&el.childElementCount)return;achKey=key;el.innerHTML='';for(const a of achievementList){const got=state.unlocked.includes(a[0]);const secret=!!a[3]&&!got;const card=document.createElement('article');card.className='logro-item '+(got?'':'bloqueado')+(a[0]==='completo'&&got?' logro-final-dorado':'')+(a[0]==='perfeccionista'&&got?' logro-mitico-rojo':'');const img=document.createElement('img');img.alt='';if(secret){img.src='logro-secreto.png';img.onerror=()=>{img.onerror=null;img.src='logro-'+a[0]+'.png';img.onerror=()=>{img.onerror=null;img.src='logro-click.png';img.onerror=()=>{img.onerror=null;img.src='imagen.png'}}}}else{img.src=achievementIcon(a[0]);img.onerror=()=>{img.onerror=null;img.src='logro-click.png';img.onerror=()=>{img.onerror=null;img.src='imagen.png'}}}const info=document.createElement('div');const title=document.createElement('strong');title.textContent=got?a[1]:secret?'Logro Secreto':'Logro bloqueado';const desc=document.createElement('p');desc.textContent=got?a[2]:secret?'Intenta buscar algo interesante que podria hacer eso :v':'Sigue explorando para desbloquearlo.';info.append(title,desc);if(got&&state.achievementDates[a[0]]){const small=document.createElement('small');small.textContent='Desbloqueado: '+state.achievementDates[a[0]];info.append(small)}card.append(img,info);el.append(card)}}
-function syncShop(){document.querySelectorAll('#panel-tienda button[data-cost]').forEach(b=>{b.disabled=state.coins<Number(b.dataset.cost)})}
-function renderShop(){const box=$('lista-mejoras'),skinbox=$('lista-skins');if(!box||!skinbox)return;const key=JSON.stringify([state.upgrades,state.equipped,state.ownedSkins,state.skin,state.enemyDog]);if(key===shopKey&&box.childElementCount){syncShop();return}shopKey=key;const panel=$('panel-tienda'),st=panel?panel.scrollTop:0;box.innerHTML='';for(const u of upgrades){const level=state.upgrades[u.id]||0;const cost=Math.floor(u.base*Math.pow(1.65,level));const card=document.createElement('article');card.className='tienda-item';const h=document.createElement('h4');h.textContent=u.name;const p=document.createElement('p');p.textContent=u.desc;const small=document.createElement('small');small.textContent=`Nivel comprado: ${level} · Precio: ${cost} monedas`;const buy=document.createElement('button');buy.className='boton';buy.textContent='Comprar nivel';buy.dataset.cost=cost;buy.disabled=state.coins<cost;buy.onclick=()=>{if(state.coins<cost)return;const topItem=mostExpensiveNow(cost);state.coins-=cost;state.upgrades[u.id]=level+1;if(!state.equipped.includes(u.id))state.equipped.push(u.id);award('comprador');if(topItem)award('pasto');if(u.id==='lucky'){}checkAchievements();refresh()};const equip=document.createElement('button');equip.className='boton boton-secundario';equip.textContent=equipped(u.id)?'Desequipar':'Equipar';equip.disabled=level===0;equip.onclick=()=>{if(equipped(u.id))state.equipped=state.equipped.filter(x=>x!==u.id);else state.equipped.push(u.id);refresh()};card.append(h,p,small,buy,equip);box.append(card)}
- skinbox.innerHTML='';for(const s of skins){if(s.id==='dog-gold'&&!state.enemyDog)continue;const card=document.createElement('article');card.className='tienda-item';const prev=document.createElement('img');prev.className='skin-preview'+(s.id==='cat-gold'||s.id==='dog-gold'?' skin-dorada':'');prev.alt='Vista previa de '+s.name;prev.onerror=()=>{prev.onerror=null;prev.src='imagen.png'};prev.src=s.src;const h=document.createElement('h4');h.textContent=s.name;const p=document.createElement('p');p.textContent=s.desc;const b=document.createElement('button');b.className='boton';if(state.skin===s.id){b.textContent='Equipada';b.disabled=true}else if(state.ownedSkins.includes(s.id)){b.textContent='Equipar';b.onclick=()=>{state.skin=s.id;refresh()}}else if(s.id==='cat-gold'){b.textContent='Completa los logros normales';b.disabled=true}else if(s.type==='shop'){b.textContent=`Comprar · ${s.price} monedas`;b.dataset.cost=s.price;b.disabled=state.coins<s.price;b.onclick=()=>{if(state.coins<s.price||state.ownedSkins.includes(s.id))return;const topItem=mostExpensiveNow(s.price);state.coins-=s.price;state.ownedSkins.push(s.id);state.skin=s.id;if(topItem)award('pasto');if(s.id==='wifi-skeleton')award('wifi-fun');checkAchievements();refresh()}}else{b.textContent='No disponible';b.disabled=true}card.append(prev,h,p,b);skinbox.append(card)}syncShop();if(panel)panel.scrollTop=st}
-function renderStats(){const el=$('contenido-stats');if(!el)return;const rows=[['Clics de esta partida',state.clicks],['Clics históricos',state.totalClicks],['Clics legítimos acumulados',state.legitLifetime],['Clics legítimos en este ciclo',state.legitClicks],['Monedas',state.coins],['Mejor CPS',state.bestCps.toFixed(1)],['Niveles de mejoras',totalUpgradeLevels()],['Mejoras equipadas',state.equipped.length],['Logros obtenidos',state.unlocked.length+'/'+achievementList.length],['Comandos probados',state.commandsUsed.length+'/'+commandNames.length],['Victorias en Batalla',state.battleWins],['Eventos raros',state.rareEvents],['Reinicios',state.resets],['Prestigio',state.prestige+'/11'],['Tiempo jugando',Math.floor(state.playSeconds/60)+' min']];el.innerHTML='';for(const [k,v] of rows){const d=document.createElement('div');d.className='stat-item';const l=document.createElement('span');l.textContent=k;const val=document.createElement('strong');val.textContent=typeof v==='number'?v.toLocaleString('es-MX'):v;d.append(l,val);el.append(d)}}
+function allShopSkins(){return skins.filter(s=>s.type==='shop'&&s.animal==='cat').every(s=>state.ownedSkins.includes(s.id))}
+function mostExpensiveNow(cost){const prices=upgrades.map(u=>Math.floor(u.base*Math.pow(1.65,state.upgrades[u.id]||0))).concat(skins.filter(s=>s.type==='shop'&&!state.ownedSkins.includes(s.id)&&(s.animal==='cat'||state.enemyDog)).map(s=>s.price));return cost>=Math.max(...prices)}
+function checkAchievements(){checkMissions();eventRoll();if(!state.battleUnlocked&&state.totalClicks>=10000){state.battleUnlocked=true;notice('Modo Batalla desbloqueado.')}const t=state.totalClicks;if(state.commandsUsed.length>0)award('newbie');if(state.commandsUsed.includes('shutdown'))award('mayor-error');if(state.commandsUsed.includes('credits'))award('responsables');if(state.commandsUsed.includes('rickroll')||state.commandsUsed.includes('admin'))award('rickrolled');if(state.user.toLowerCase()==='pepinillo')award('pepinillo');if(state.ownedSkins.includes('wifi-skeleton'))award('wifi-fun');if(t>=1)award('primer-click');if(t>=100)award('100-clicks');if(t>=1000)award('1000-clicks');if(t>=10000)award('viciado');if(t>=100000)award('millones');if(ownedUpgradeCount()>0)award('comprador');if(state.prestige>=1)award('en-las-nubes');if(state.prestige>=3)award('multiverso');if(state.prestige>=11)award('deidad');if(state.commandsUsed.includes('enemy'))award('mayor-enemigo');if(state.commandsUsed.length>0){}if(state.battleWins>0)award('viciado-batalla');if(state.mode==='Batalla'||state.battleWins>0)award('batalla');if(allShopSkins()){award('moda');award('coleccionista');}if(allOwnedSkins()&&totalUpgradeLevels()>=upgrades.length)award('necesitas-dedo');if(allOwnedSkins()&&totalUpgradeLevels()>=upgrades.length&&achievementList.filter(a=>a[0]!=='armado'&&a[0]!=='perfeccionista').every(a=>state.unlocked.includes(a[0])))award('armado');if(normalIds.every(id=>state.unlocked.includes(id))) {if(!state.ownedSkins.includes('cat-gold'))state.ownedSkins.push('cat-gold');if(!state.ownedSkins.includes('dog-gold'))state.ownedSkins.push('dog-gold');if(!state.unlocked.includes('completo'))award('completo');}if(secretIds.every(id=>state.unlocked.includes(id)))award('agente');if(state.unlocked.includes('agente')&&!state.ownedSkins.includes('cat-detective'))state.ownedSkins.push('cat-detective');if(totalUpgradeLevels()>=upgrades.length&&upgrades.every(u=>(state.upgrades[u.id]||0)>0)&&allShopSkins())award('pro-clicker');if(achievementList.filter(a=>a[0]!=='perfeccionista').every(a=>state.unlocked.includes(a[0])))award('perfeccionista');}
+function renderAchievements(){const el=$('lista-logros');if(!el)return;const key=state.unlocked.join(',')+JSON.stringify(state.achievementDates);if(key===achKey&&el.childElementCount)return;achKey=key;el.innerHTML='';for(const a of achievementList){const got=state.unlocked.includes(a[0]);const secret=!!a[3]&&!got;const card=document.createElement('article');card.className='logro-item '+(got?'':'bloqueado')+(a[0]==='completo'&&got?' logro-final-dorado':'')+(a[0]==='perfeccionista'&&got?' logro-mitico-rojo':'')+(a[0]==='las-123'&&got?' logro-arcoiris':'');const img=document.createElement('img');img.alt='';if(secret){img.src='logro-secreto.png';img.onerror=()=>{img.onerror=null;img.src='logro-'+a[0]+'.png';img.onerror=()=>{img.onerror=null;img.src='logro-click.png';img.onerror=()=>{img.onerror=null;img.src='imagen.png'}}}}else{img.src=achievementIcon(a[0]);img.onerror=()=>{img.onerror=null;img.src='logro-click.png';img.onerror=()=>{img.onerror=null;img.src='imagen.png'}}}const info=document.createElement('div');const title=document.createElement('strong');title.textContent=got?a[1]:secret?'Logro Secreto':'Logro bloqueado';const desc=document.createElement('p');desc.textContent=got?a[2]:secret?'Intenta buscar algo interesante que podria hacer eso :v':'Sigue explorando para desbloquearlo.';info.append(title,desc);if(got&&state.achievementDates[a[0]]){const small=document.createElement('small');small.textContent='Desbloqueado: '+state.achievementDates[a[0]];info.append(small)}card.append(img,info);el.append(card)}}
+function syncShop(){document.querySelectorAll('#panel-tienda button[data-cost]').forEach(b=>{b.disabled=state.coins<Number(b.dataset.cost)||(b.dataset.event==='1'&&eventActive)})}
+function renderShop(){const box=$('lista-mejoras'),skinbox=$('lista-skins'),dogbox=$('lista-skins-perro'),evbox=$('lista-eventos');if(!box||!skinbox||!dogbox||!evbox)return;const showEv=normalDone();const key=JSON.stringify([state.upgrades,state.equipped,state.ownedSkins,state.skin,state.enemyDog,eventActive,showEv]);if(key===shopKey&&box.childElementCount){syncShop();return}shopKey=key;const panel=$('panel-tienda'),st=panel?panel.scrollTop:0;box.innerHTML='';
+ for(const u of upgrades){const level=state.upgrades[u.id]||0;const cost=Math.floor(u.base*Math.pow(1.65,level));const card=document.createElement('article');card.className='tienda-item';const ic=document.createElement('img');ic.className='mejora-icon';ic.alt='';ic.onerror=()=>{ic.style.display='none'};ic.src='mejora-'+u.id+'.png';const h=document.createElement('h4');h.textContent=u.name;const p=document.createElement('p');p.textContent=u.desc;const small=document.createElement('small');small.textContent=`Nivel comprado: ${level} · Precio: ${cost} monedas`;const buy=document.createElement('button');buy.className='boton';buy.textContent='Comprar nivel';buy.dataset.cost=cost;buy.disabled=state.coins<cost;buy.onclick=()=>{if(state.coins<cost)return;const topItem=mostExpensiveNow(cost);state.coins-=cost;state.upgrades[u.id]=level+1;if(!state.equipped.includes(u.id))state.equipped.push(u.id);bought();award('comprador');if(topItem)award('pasto');checkAchievements();refresh()};const equip=document.createElement('button');equip.className='boton boton-secundario';equip.textContent=equipped(u.id)?'Desequipar':'Equipar';equip.disabled=level===0;equip.onclick=()=>{if(equipped(u.id))state.equipped=state.equipped.filter(x=>x!==u.id);else state.equipped.push(u.id);refresh()};card.append(ic,h,p,small,buy,equip);box.append(card)}
+ const skinCard=s=>{const card=document.createElement('article');card.className='tienda-item';const prev=document.createElement('img');prev.className='skin-preview'+(s.id==='cat-gold'||s.id==='dog-gold'?' skin-dorada':'');prev.alt='Vista previa de '+s.name;prev.onerror=()=>{prev.onerror=null;prev.src='imagen.png'};prev.src=s.src;const h=document.createElement('h4');h.textContent=s.name;const p=document.createElement('p');p.textContent=s.desc;const b=document.createElement('button');b.className='boton';if(state.skin===s.id){b.textContent='Equipada';b.disabled=true}else if(state.ownedSkins.includes(s.id)){b.textContent='Equipar';b.onclick=()=>{state.skin=s.id;refresh()}}else if(s.type==='achievement'){b.textContent='Completa los logros normales';b.disabled=true}else if(s.type==='shop'){b.textContent=`Comprar · ${s.price.toLocaleString('es-MX')} monedas`;b.dataset.cost=s.price;b.disabled=state.coins<s.price;b.onclick=()=>{if(state.coins<s.price||state.ownedSkins.includes(s.id))return;const topItem=mostExpensiveNow(s.price);state.coins-=s.price;state.ownedSkins.push(s.id);state.skin=s.id;bought();if(topItem)award('pasto');if(s.id==='wifi-skeleton')award('wifi-fun');checkAchievements();refresh()}}else{b.textContent='No disponible';b.disabled=true}card.append(prev,h,p,b);return card};
+ skinbox.innerHTML='';skins.filter(s=>s.animal==='cat'&&(s.type!=='secret'||state.ownedSkins.includes(s.id))).forEach(s=>skinbox.append(skinCard(s)));
+ dogbox.innerHTML='';if(state.enemyDog)skins.filter(s=>s.animal==='dog').forEach(s=>dogbox.append(skinCard(s)));dogbox.style.display=state.enemyDog?'':'none';$('titulo-skins-perro').hidden=!state.enemyDog;
+ evbox.innerHTML='';if(showEv){const card=document.createElement('article');card.className='tienda-item';const h=document.createElement('h4');h.textContent='Las Uan Tu Tri';const p=document.createElement('p');p.textContent='Son las uan  tu trii, las uan and tu and trii :v..';const small=document.createElement('small');small.textContent='Dura 30 segundos · +123% de monedas y clics · Precio: 123,000 monedas';const b=document.createElement('button');b.className='boton boton-arcoiris';b.textContent=eventActive?'Evento en curso':'Activar evento';b.dataset.cost=123000;b.dataset.event='1';b.disabled=state.coins<123000||eventActive;b.onclick=()=>{if(state.coins<123000||eventActive)return;state.coins-=123000;bought();startEvent123();checkAchievements();refresh()};card.append(h,p,small,b);evbox.append(card)}evbox.style.display=showEv?'':'none';$('titulo-eventos').hidden=!showEv;
+ syncShop();if(panel)panel.scrollTop=st}
+function renderStats(){const el=$('contenido-stats');if(!el)return;const rows=[['Clics de esta partida',state.clicks],['Clics históricos',state.totalClicks],['Clics legítimos acumulados',state.legitLifetime],['Clics legítimos en este ciclo',state.legitClicks],['Monedas',state.coins],['Mejor CPS',state.bestCps.toFixed(1)],['Niveles de mejoras',totalUpgradeLevels()],['Mejoras equipadas',state.equipped.length],['Logros obtenidos',state.unlocked.length+'/'+achievementList.length],['Comandos probados',state.commandsUsed.length+'/'+commandNames.length],['Victorias en Batalla',state.battleWins],['Eventos raros',state.rareEvents],['Reinicios',state.resets],['Misiones completadas',state.missionCount],['Criticos',state.crits],['Prestigio',state.prestige+'/11'],['Tiempo jugando',Math.floor(state.playSeconds/60)+' min']];el.innerHTML='';for(const [k,v] of rows){const d=document.createElement('div');d.className='stat-item';const l=document.createElement('span');l.textContent=k;const val=document.createElement('strong');val.textContent=typeof v==='number'?v.toLocaleString('es-MX'):v;d.append(l,val);el.append(d)}}
 function renderPrestige(){const el=$('info-prestigio');if(!el)return;const next=prestigeGoals[state.prestige];el.innerHTML=`<p><strong>Nivel:</strong> ${state.prestige}/11</p><p><strong>Multiplicador permanente:</strong> ×${modeMultiplier().toFixed(2)}</p><p>${next?`Necesitas ${Math.max(0,next-state.legitLifetime).toLocaleString('es-MX')} clics legítimos acumulados para el siguiente nivel (${next}).`:'¡Has alcanzado el prestigio máximo!'}</p>`;$('hacer-prestigio').disabled=!next||state.legitLifetime<next;$('revertir-prestigio').disabled=state.prestige===0;$('resetear-prestigio').disabled=state.prestige===0}
 function openModal(id){$(id)?.classList.add('abierto');$(id)?.setAttribute('aria-hidden','false')};function closeModal(id){$(id)?.classList.remove('abierto');$(id)?.setAttribute('aria-hidden','true')}
 function terminalOut(t,cls=''){const p=document.createElement('p');p.className=cls;p.textContent=t;$('terminal-salida').append(p);$('terminal-salida').scrollTop=$('terminal-salida').scrollHeight}
 function openTerminal(){openModal('terminal');award('newbie');setTimeout(()=>$('entrada-comando').focus(),100)}
 function leaveFullscreen(){try{const f=document.exitFullscreen||document.webkitExitFullscreen;if((document.fullscreenElement||document.webkitFullscreenElement)&&f)Promise.resolve(f.call(document)).catch(()=>{})}catch{}}
-function shutdown(){if(shuttingDown)return;shuttingDown=true;award('mayor-error');state.clicks=0;state.legitClicks=0;state.resets++;refresh();const screen=$('pantalla-shutdown'),bar=$('progreso-shutdown'),txt=$('texto-shutdown'),joke=$('texto-broma');bar.style.width='0%';txt.textContent='Recopilando información: 0%';joke.classList.remove('visible');screen.classList.add('activa');screen.setAttribute('aria-hidden','false');try{const root=document.documentElement,req=root.requestFullscreen||root.webkitRequestFullscreen;if(req)Promise.resolve(req.call(root)).catch(()=>{})}catch{}const total=12000,barTime=10400,t0=Date.now();const timer=setInterval(()=>{const ms=Date.now()-t0;const n=Math.min(100,Math.floor(ms/barTime*100));bar.style.width=n+'%';txt.textContent='Recopilando información: '+n+'%';if(n>=100)joke.classList.add('visible');if(ms>=total){clearInterval(timer);screen.classList.remove('activa');screen.setAttribute('aria-hidden','true');leaveFullscreen();shuttingDown=false}},100)}
+function shutdown(){if(shuttingDown)return;shuttingDown=true;award('mayor-error');refresh();const screen=$('pantalla-shutdown'),bar=$('progreso-shutdown'),txt=$('texto-shutdown'),joke=$('texto-broma');bar.style.width='0%';txt.textContent='Recopilando información: 0%';joke.classList.remove('visible');screen.classList.add('activa');screen.setAttribute('aria-hidden','false');try{const root=document.documentElement,req=root.requestFullscreen||root.webkitRequestFullscreen;if(req)Promise.resolve(req.call(root)).catch(()=>{})}catch{}const total=12000,barTime=10400,t0=Date.now();const timer=setInterval(()=>{const ms=Date.now()-t0;const n=Math.min(100,Math.floor(ms/barTime*100));bar.style.width=n+'%';txt.textContent='Recopilando información: '+n+'%';if(n>=100)joke.classList.add('visible');if(ms>=total){clearInterval(timer);screen.classList.remove('activa');screen.setAttribute('aria-hidden','true');leaveFullscreen();shuttingDown=false}},100)}
 function normName(s){return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
 function giveLogro(name){const n=normName(name);if(n==='all'){achievementList.filter(a=>a[0]!=='perfeccionista').forEach(a=>award(a[0]));award('perfeccionista');terminalOut('Todos los logros otorgados.');refresh();return}const a=achievementList.find(x=>normName(x[0])===n||normName(x[1])===n);if(!a){terminalOut('Logro no encontrado: '+name);return}if(state.unlocked.includes(a[0]))terminalOut('Ya tenias ese logro.');else{award(a[0]);terminalOut('Logro otorgado: '+a[1])}refresh()}
 function command(raw){const cmd=raw.trim().toLowerCase();if(!cmd)return;terminalOut('guest@gatillo:~$ '+cmd,'eco-comando');const give=cmd.match(/^give me logro (.+?)\s*=\s*true$/);if(give){giveLogro(give[1]);return}if(!state.commandsUsed.includes(cmd)&&commandNames.includes(cmd)){state.commandsUsed.push(cmd);persist()}switch(cmd){case'help':terminalOut('Terminal: programa que te deja hablar con el sistema escribiendo órdenes de texto en lugar de usar botones y menús.');terminalOut('Tú escribes un comando, la terminal lo ejecuta y te muestra el resultado.');break;case'imanoob':state.noteUnlocked=true;$('boton-nota').hidden=false;terminalOut('Nota de comandos desbloqueada.');break;case'shutdown':closeModal('terminal');shutdown();break;case'imgreedy':state.clicks+=10000;state.totalClicks+=10000;addCoins(10000);terminalOut('¡PUM! +10,000 clics y +10,000 monedas.');checkAchievements();refresh();break;
 case'imsupergreedy':state.clicks+=100000;state.totalClicks+=100000;terminalOut('¡PUM PUM! +100,000 clics.');checkAchievements();refresh();break;
 case'imbroke':state.clicks=-1;terminalOut('Ahora tienes -1 clics.');award('como-haces-eso');refresh();break;
 case'finalecredits':if(!state.gameFinished){terminalOut('Comando desconocido. Escribe help.');break}closeModal('terminal');startEnding(true);break;
-case'enemy':if(state.enemyDog){state.enemyDog=false;if(state.skin==='dog-gold')state.skin='cat';terminalOut('Enemy desactivado. El perro dorado ya no aparece en la tienda.')}else{state.enemyDog=true;if(!state.ownedSkins.includes('dog-gold'))state.ownedSkins.push('dog-gold');state.skin='dog-gold';terminalOut('Enemy activado. Perro dorado disponible en la tienda.')}state.enemySwitches++;award('mayor-enemigo');refresh();break;
+case'enemy':if(state.enemyDog){state.enemyDog=false;if(currentSkin().animal==='dog')state.skin='cat';terminalOut('Enemy desactivado. Las skins de perro ya no aparecen en la tienda.')}else{state.enemyDog=true;if(!state.ownedSkins.includes('dog'))state.ownedSkins.push('dog');state.skin='dog';terminalOut('Enemy activado. Skin de perro desbloqueada y seccion de perros disponible en la tienda.')}state.enemySwitches++;award('mayor-enemigo');refresh();break;
 case'credits':award('responsables');openModal('ventana-creditos');terminalOut('Créditos abiertos.');break;case'rickroll':case'admin':award('rickrolled');terminalOut('Rickroll desactivado: enlace externo eliminado.');break;default:terminalOut('Comando desconocido. Escribe help.')}checkAchievements();refresh()}
-function clickGame(){if(exploding)return;if(state.mode==='Batalla'){battleClick();return}const gain=Math.max(1,Math.floor(clickPower()*modeMultiplier()));state.clicks+=gain;state.totalClicks+=gain;state.legitClicks+=1;state.legitLifetime+=1;addCoins(Math.max(1,Math.floor(gain*(equipped('coin')?1+0.25*(state.upgrades.coin||0):1))));play(dogMode?audio.dog:audio.cat);const now=Date.now();recent=recent.filter(t=>now-t<1000);recent.push(now);cps=recent.length;state.bestCps=Math.max(state.bestCps,cps);if(recent.length>=10)explode();checkAchievements();maybeEvent();refresh()}
+function clickGame(){if(exploding)return;state.manualClicks++;D().c++;if(state.mode==='Batalla'){battleClick();return}const crit=Math.random()<0.03;const gain=Math.max(1,Math.floor(clickPower()*modeMultiplier()*evMult()*(crit?3:1)));if(crit){state.crits++;D().crit++;radical()}state.clicks+=gain;state.totalClicks+=gain;state.legitClicks+=1;state.legitLifetime+=1;addCoins(Math.max(1,Math.floor(gain*(equipped('coin')?1+0.25*(state.upgrades.coin||0):1))));play(dogMode?audio.dog:audio.cat);const now=Date.now();recent=recent.filter(t=>now-t<1000);recent.push(now);cps=recent.length;state.bestCps=Math.max(state.bestCps,cps);if(recent.length>=10)explode();checkAchievements();maybeEvent();refresh()}
 function setMode(mode){if(mode==='Batalla'&&!state.battleUnlocked){notice('Batalla se desbloquea al llegar a 10,000 clics en total.');mode='Casual'}state.mode=mode;if(mode==='Batalla'){gameStarted=true;award('batalla');if(!battle.active)startBattle()}else{stopBattle()}refresh()}
-function setEnemy(i){const e=skins[i%skins.length];$('enemigo-nombre').textContent=e.name;const img=$('imagen-enemigo');img.onerror=()=>{img.onerror=null;img.src='imagen.png'};img.src=e.src;img.classList.toggle('skin-dorada',e.id==='cat-gold'||e.id==='dog-gold');img.classList.remove('skin-deluxe')}
+function setEnemy(i){const pool=skins.filter(k=>k.type!=='secret');const e=pool[i%pool.length];$('enemigo-nombre').textContent=e.name;const img=$('imagen-enemigo');img.onerror=()=>{img.onerror=null;img.src='imagen.png'};img.src=e.src;img.classList.toggle('skin-dorada',e.id==='cat-gold'||e.id==='dog-gold');img.classList.remove('skin-deluxe')}
 function startBattle(){stopBattle();battle.active=true;battle.enemyIndex=0;battle.enemyMax=battle.enemyHp=100;battle.playerHp=5;battle.hits=0;battle.speed=.7;battle.streak=0;battle.indicator=0;battle.direction=1;battle.last=0;newZone();setEnemy(0);$('texto-batalla').textContent='¡Haz clic cuando el indicador esté en la zona roja!';updateBattleUI();battleLoop()}
 function stopBattle(){battle.active=false;if(battle.raf)cancelAnimationFrame(battle.raf);battle.raf=0}
 function newZone(){battle.zoneWidth=Math.max(4,18-battle.enemyIndex*1.5-battle.hits*1.6);battle.zoneStart=5+Math.random()*(90-battle.zoneWidth);$('zona-roja').style.left=battle.zoneStart+'%';$('zona-roja').style.width=battle.zoneWidth+'%'}
 function battleLoop(now){if(!battle.active||state.mode!=='Batalla')return;now=now||performance.now();const dt=battle.last?Math.min(50,now-battle.last):16.7;battle.last=now;battle.indicator+=battle.direction*battle.speed*dt*0.06;if(battle.indicator>=100){battle.indicator=100;battle.direction=-1}else if(battle.indicator<=0){battle.indicator=0;battle.direction=1}$('indicador-batalla').style.left=battle.indicator+'%';battle.raf=requestAnimationFrame(battleLoop)}
 function battleClick(){if(!battle.active)startBattle();const good=battle.indicator>=battle.zoneStart&&battle.indicator<=battle.zoneStart+battle.zoneWidth;if(good){battle.hits++;battle.streak++;battle.speed=Math.min(3.7,battle.speed+.18);battle.enemyHp-=20+Math.floor(Math.random()*16);play(dogMode?audio.dog:audio.cat);const en=$('imagen-enemigo');en.classList.remove('tambaleo');void en.offsetWidth;en.classList.add('tambaleo');setTimeout(()=>en.classList.remove('tambaleo'),260);$('texto-batalla').textContent=`¡HIT! Combo ${battle.streak} · Vida enemiga ${Math.max(0,battle.enemyHp)}/${battle.enemyMax}`;if(battle.enemyHp<=0){winBattle();return}newZone()}else{battle.playerHp--;battle.streak=0;$('texto-batalla').textContent=`¡Fallaste! El enemigo te golpeó. Vidas: ${battle.playerHp}/5`;if(battle.playerHp<=0){const lost=state.clicks>0?Math.min(state.clicks,Math.max(10,Math.floor(state.clicks*.1))):0;state.clicks-=lost;battle.playerHp=5;battle.enemyHp=battle.enemyMax;battle.hits=0;battle.speed=.7;newZone();$('texto-batalla').textContent=lost>0?`¡Te derrotaron! Perdiste ${lost.toLocaleString('es-MX')} clics. Nuevo intento, vuelve a apuntar.`:'¡Te derrotaron! Nuevo intento, vuelve a apuntar.';if(lost>0){$('contador').textContent=state.clicks.toLocaleString('es-MX');persist()}}}updateBattleUI()}
-function winBattle(){state.battleWins++;state.bestBattleStreak=Math.max(state.bestBattleStreak,battle.hits);const reward=1+Math.floor(Math.random()*10000);state.clicks+=reward;state.totalClicks+=reward;state.legitClicks+=reward;state.legitLifetime+=reward;addCoins(Math.max(1,Math.floor(reward/10)));battle.enemyIndex++;battle.enemyMax=100+25*battle.enemyIndex;battle.enemyHp=battle.enemyMax;battle.playerHp=5;battle.hits=0;battle.speed=.7;battle.streak=0;newZone();setEnemy(battle.enemyIndex);$('texto-batalla').textContent=`¡VICTORIA! +${reward.toLocaleString('es-MX')} clics. El siguiente enemigo se acerca...`;checkAchievements();refresh()}
+function winBattle(){state.battleWins++;state.bestBattleStreak=Math.max(state.bestBattleStreak,battle.hits);const reward=Math.floor((1+Math.floor(Math.random()*10000))*evMult());state.clicks+=reward;state.totalClicks+=reward;state.legitClicks+=reward;state.legitLifetime+=reward;addCoins(Math.max(1,Math.floor(reward/10)));battle.enemyIndex++;battle.enemyMax=100+25*battle.enemyIndex;battle.enemyHp=battle.enemyMax;battle.playerHp=5;battle.hits=0;battle.speed=.7;battle.streak=0;newZone();setEnemy(battle.enemyIndex);$('texto-batalla').textContent=`¡VICTORIA! +${reward.toLocaleString('es-MX')} clics. El siguiente enemigo se acerca...`;checkAchievements();refresh()}
 function updateBattleUI(){if(!$('vida-enemigo-barra'))return;const pct=state.mode==='Batalla'?Math.max(0,battle.enemyHp/battle.enemyMax*100):100;$('vida-enemigo-barra').style.width=pct+'%';if($('vidas-jugador'))$('vidas-jugador').textContent='Vidas: '+battle.playerHp+'/5';if($('zona-roja')){$('zona-roja').style.left=battle.zoneStart+'%';$('zona-roja').style.width=battle.zoneWidth+'%'}}
 function maybeEvent(){const chance=.001+(equipped('lucky')?(state.upgrades.lucky||0)*.0004:0);if(Math.random()<chance){state.rareEvents++;const r=Math.random();if(r<.5){addCoins(250);eventMessage('¡Evento raro! Encontraste 250 monedas.')}else if(r<.8){state.clicks+=100;state.totalClicks+=100;state.legitClicks+=100;state.legitLifetime+=100;eventMessage('¡El Gatillo Cósmico te regaló 100 clics!')}else{eventMessage('El Gatillo Engine acaba de estornudar :v')}checkAchievements()}}
 function notice(msg){const el=$('mensaje-aleatorio');el.textContent=msg;el.classList.add('visible');clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>el.classList.remove('visible'),4000)}
 function eventMessage(msg){state.eventCount++;notice(msg)}
 function explode(){if(exploding)return;exploding=true;document.body.classList.add('explotando');$('pantalla-explosion').classList.add('activa');$('pantalla-explosion').setAttribute('aria-hidden','false');$('gif-explosion').src='explosion.gif?x='+Date.now();setTimeout(()=>{exploding=false;document.body.classList.remove('explotando');$('pantalla-explosion').classList.remove('activa');$('pantalla-explosion').setAttribute('aria-hidden','true');recent=[]},2200)}
+
+/* ===== Misiones, evento y critico ===== */
+const dayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+function freshDaily(k){return{day:k,c:0,coins:0,buys:0,crit:0,secs:0,done:[]}}
+function D(){const k=dayKey();if(!state.daily||typeof state.daily!=='object'||state.daily.day!==k||!Array.isArray(state.daily.done))state.daily=freshDaily(k);return state.daily}
+function bought(){state.purchases++;D().buys++}
+const normalDone=()=>normalIds.every(id=>state.unlocked.includes(id));
+const dailyPool=[
+{id:'d-c100',name:'Manitas calientes',desc:'Da 100 clics al gatito hoy.',key:'c',target:100,clicks:300,coins:200},
+{id:'d-c300',name:'Dedo incansable',desc:'Da 300 clics al gatito hoy.',key:'c',target:300,clicks:600,coins:400},
+{id:'d-coins500',name:'Ahorrador',desc:'Gana 500 monedas hoy.',key:'coins',target:500,clicks:300,coins:250},
+{id:'d-coins2000',name:'Bolsillos llenos',desc:'Gana 2,000 monedas hoy.',key:'coins',target:2000,clicks:700,coins:500},
+{id:'d-buy',name:'Compras del dia',desc:'Compra una mejora o una skin hoy.',key:'buys',target:1,clicks:400,coins:300},
+{id:'d-crit',name:'Golpe radical',desc:'Consigue un clic critico hoy.',key:'crit',target:1,clicks:500,coins:350},
+{id:'d-time',name:'Rato libre',desc:'Juega 10 minutos hoy.',key:'secs',target:600,clicks:350,coins:250}
+];
+const lifeMissions=[
+{id:'m-c10',name:'Primer toque',desc:'Da 10 clics al gatito.',get:()=>state.manualClicks,target:10,clicks:30,coins:20},
+{id:'m-c100',name:'Calentando dedos',desc:'Da 100 clics al gatito.',get:()=>state.manualClicks,target:100,clicks:50,coins:30},
+{id:'m-c500',name:'Ritmo constante',desc:'Da 500 clics al gatito.',get:()=>state.manualClicks,target:500,clicks:80,coins:50},
+{id:'m-c1000',name:'Mil caricias',desc:'Da 1,000 clics al gatito.',get:()=>state.manualClicks,target:1000,clicks:120,coins:80},
+{id:'m-c5000',name:'Dedo de acero',desc:'Da 5,000 clics al gatito.',get:()=>state.manualClicks,target:5000,clicks:200,coins:150},
+{id:'m-g100',name:'Primeras monedas',desc:'Gana 100 monedas en total.',get:()=>state.coinsEarned,target:100,clicks:40,coins:30},
+{id:'m-g1000',name:'Alcancia',desc:'Gana 1,000 monedas en total.',get:()=>state.coinsEarned,target:1000,clicks:80,coins:60},
+{id:'m-g10000',name:'Pequeña fortuna',desc:'Gana 10,000 monedas en total.',get:()=>state.coinsEarned,target:10000,clicks:200,coins:150},
+{id:'m-b1',name:'De compras',desc:'Haz 1 compra en la tienda.',get:()=>state.purchases,target:1,clicks:40,coins:30},
+{id:'m-b5',name:'Cliente asiduo',desc:'Haz 5 compras en la tienda.',get:()=>state.purchases,target:5,clicks:80,coins:60},
+{id:'m-b10',name:'Comprador compulsivo',desc:'Haz 10 compras en la tienda.',get:()=>state.purchases,target:10,clicks:150,coins:100},
+{id:'m-k1',name:'Radical',desc:'Consigue 1 clic critico.',get:()=>state.crits,target:1,clicks:50,coins:40},
+{id:'m-k5',name:'Suerte de campeon',desc:'Consigue 5 clics criticos.',get:()=>state.crits,target:5,clicks:100,coins:80},
+{id:'m-w1',name:'Primera sangre',desc:'Gana 1 batalla.',get:()=>state.battleWins,target:1,clicks:80,coins:60},
+{id:'m-w5',name:'Guerrero gatuno',desc:'Gana 5 batallas.',get:()=>state.battleWins,target:5,clicks:150,coins:100},
+{id:'m-t1',name:'Hackerman',desc:'Usa un comando en la terminal.',get:()=>state.commandsUsed.length,target:1,clicks:40,coins:30},
+{id:'m-p10',name:'Echando raices',desc:'Juega 10 minutos en total.',get:()=>state.playSeconds,target:600,clicks:60,coins:40},
+{id:'m-p60',name:'Vecino del sitio',desc:'Juega 1 hora en total.',get:()=>state.playSeconds,target:3600,clicks:120,coins:80},
+{id:'m-pr',name:'Hacia arriba',desc:'Alcanza el primer prestigio.',get:()=>state.prestige,target:1,clicks:150,coins:100},
+{id:'m-a10',name:'Cazador de logros',desc:'Consigue 10 logros.',get:()=>state.unlocked.length,target:10,clicks:100,coins:80}
+];
+function seedRand(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return()=>{h=(h+0x6D2B79F5)|0;let t=Math.imul(h^(h>>>15),1|h);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296}}
+function todaysDaily(){const r=seedRand(D().day);const a=dailyPool.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,5)}
+function checkMissions(){const d=D(),dl=todaysDaily();let n=0,c=0,g=0,last='';
+ const give=m=>{state.clicks+=m.clicks;state.totalClicks+=m.clicks;state.coins+=m.coins;n++;c+=m.clicks;g+=m.coins;last=m.name};
+ for(const m of dl){if(!d.done.includes(m.id)&&(d[m.key]||0)>=m.target){d.done.push(m.id);give(m)}}
+ for(const m of lifeMissions){if(!state.missionsDone.includes(m.id)&&m.get()>=m.target){state.missionsDone.push(m.id);give(m)}}
+ if(n){state.missionCount+=n;notice(n===1?`Mision completada: ${last} (+${c} clics, +${g} monedas)`:`${n} misiones completadas (+${c} clics, +${g} monedas)`)}
+ if(state.missionCount>0)award('calendario');
+ const dAll=dl.every(m=>d.done.includes(m.id)),cAll=lifeMissions.every(m=>state.missionsDone.includes(m.id));
+ if(dAll||cAll)award('agenda-llena');if(dAll&&cAll)award('reloj')}
+function renderMissions(){const el=$('lista-misiones'),pm=$('panel-misiones');if(!el||!pm||!pm.classList.contains('abierto'))return;const d=D(),isD=missionTab==='daily';const list=isD?todaysDaily():lifeMissions;
+ const val=m=>Math.min(m.target,isD?(d[m.key]||0):m.get());const fin=m=>isD?d.done.includes(m.id):state.missionsDone.includes(m.id);
+ $('tab-diarias').classList.toggle('boton-secundario',!isD);$('tab-constantes').classList.toggle('boton-secundario',isD);
+ $('nota-misiones').textContent=(isD?'Se renuevan cada dia a las 00:00. ':'')+'Completadas: '+list.filter(fin).length+'/'+list.length;
+ const key=missionTab+'|'+d.day+'|'+list.map(m=>val(m)+(fin(m)?'*':'')).join(',');if(key===missKey&&el.childElementCount)return;missKey=key;el.innerHTML='';
+ for(const m of list){const card=document.createElement('article');card.className='mision-item'+(fin(m)?' hecha':'');const t=document.createElement('strong');t.textContent=m.name;const p=document.createElement('p');p.textContent=m.desc;const bar=document.createElement('div');bar.className='mision-barra';const fill=document.createElement('div');fill.style.width=(val(m)/m.target*100)+'%';bar.append(fill);const sm=document.createElement('small');sm.textContent=(fin(m)?'Completada · ':val(m).toLocaleString('es-MX')+'/'+m.target.toLocaleString('es-MX')+' · ')+'Recompensa: +'+m.clicks+' clics y +'+m.coins+' monedas';card.append(t,p,bar,sm);el.append(card)}}
+function evMult(){return eventActive?2.23:1}
+function fadeAudio(a,ms){if(!a)return;const t0=Date.now(),v0=a.volume;const id=setInterval(()=>{const p=Math.min(1,(Date.now()-t0)/ms);try{a.volume=Math.max(0,v0*(1-p))}catch{}if(p>=1){clearInterval(id);try{a.pause();a.volume=1}catch{}}},100)}
+const RAIN_IMGS=['evento-lluvia-1.png','evento-lluvia-2.png','evento-lluvia-3.png'];
+function rainDrop(){const box=$('evento-lluvia');if(!box||box.childElementCount>45)return;const img=document.createElement('img');const size=40+Math.random()*60,dur=(3.2+Math.random()*2.6)*1000,dx=Math.random()*160-80,r0=Math.random()*60-30,r1=Math.random()*360-180;const src=RAIN_IMGS[Math.floor(Math.random()*RAIN_IMGS.length)];img.alt='';img.style.left=(Math.random()*96)+'%';img.style.width=size+'px';img.style.transform='translate3d(0,-25vh,0)';img.onerror=()=>{console.warn('No se pudo cargar la imagen de lluvia: '+img.src);if(img.dataset.fb){img.remove();return}img.dataset.fb='1';img.src='evento-123.png'};img.src=src;box.append(img);try{const an=img.animate([{transform:'translate3d(0,-25vh,0) rotate('+r0+'deg)'},{transform:'translate3d('+dx+'px,125vh,0) rotate('+r1+'deg)'}],{duration:dur,easing:'linear',fill:'forwards'});an.onfinish=()=>img.remove()}catch{setTimeout(()=>img.remove(),dur)}}
+function rainStop(){clearInterval(rainTimer);rainTimer=0}
+function rainClear(){rainStop();const box=$('evento-lluvia');if(box)box.innerHTML=''}
+function eventVisualsOn(){$('evento-gris').classList.add('activo');if(state.animations&&!rainTimer){rainDrop();rainTimer=setInterval(rainDrop,320)}}
+function startEvent123(){if(eventActive||ending)return;eventActive=true;rpDuck(true);const a=$('sonido-evento'),img=$('evento-imagen');
+ try{a.currentTime=0;a.volume=1}catch{}if(state.sounds){try{const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{})}catch{}}
+ img.classList.add('activo');eventVisualsOn();award('las-123');notice('SON LAS UAN TU TRI! +123% de monedas y clics durante 30 segundos.');
+ eventTimers.push(setTimeout(rainStop,25500));
+ eventTimers.push(setTimeout(()=>{img.classList.remove('activo');$('evento-gris').classList.remove('activo');fadeAudio(a,1500)},28500));
+ eventTimers.push(setTimeout(()=>{eventActive=false;eventTimers=[];rpDuck(false);refresh()},30000));refresh()}
+function stopEvent123(){eventTimers.forEach(clearTimeout);eventTimers=[];if(!eventActive)return;rainClear();$('evento-gris').classList.remove('activo');eventActive=false;rpDuck(false);const a=$('sonido-evento');$('evento-imagen').classList.remove('activo');try{a.pause();a.volume=1}catch{}}
+function eventRoll(){const cp=Math.floor(state.totalClicks/10000);if(state.eventCheckpoint>cp){state.eventCheckpoint=cp;return}let n=0;while(state.eventCheckpoint<cp&&n<30){state.eventCheckpoint++;n++;if(!eventActive&&!ending&&Math.random()<(normalDone()?0.015:0.0123))startEvent123()}if(state.eventCheckpoint<cp)state.eventCheckpoint=cp}
+function radical(){const el=$('radical');if(!el||ending)return;play($('sonido-radical'));clearTimeout(radicalTimer);el.classList.add('activo');document.body.classList.remove('critico');void document.body.offsetWidth;document.body.classList.add('critico');try{if(navigator.vibrate)navigator.vibrate([80,40,80])}catch{}radicalTimer=setTimeout(()=>{el.classList.remove('activo');document.body.classList.remove('critico')},1100)}
+
+/* ===== Reproductor de musica ===== */
+const rpTracks=[{src:'rola-1.mp3',title:'Little Toy Carz'},{src:'rola-2.mp3',title:'Live Wires'},{src:'rola-3.mp3',title:'Toys in the Hood'},{src:'rola-4.mp3',title:'Toys for the Boys'},{src:'musica-final.mp3',title:'Credits',fin:true}];
+const rpAudio=$('rp-audio'),rpBox=$('reproductor'),rpLine=$('rp-linea');
+let rpOrder=[],rpIdx=0,rpSeeking=false,rpErr=0,rpWas=false,rpDucked=false,rpLoaded=false,rpOn=false;
+const rpVol=()=>rpDucked?0:.7;
+function rpShuffle(avoid){const a=rpTracks.map((_,i)=>i).filter(i=>!rpTracks[i].fin||state.gameFinished);for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}if(avoid!==undefined&&a.length>1&&a[0]===avoid){[a[0],a[1]]=[a[1],a[0]]}return a}
+function rpFmt(t){if(!isFinite(t)||t<0)t=0;const m=Math.floor(t/60),sc=Math.floor(t%60);return m+':'+(sc<10?'0':'')+sc}
+function rpMode(m){rpBox.classList.toggle('rp-modo-mini',m==='mini');rpBox.classList.toggle('rp-modo-full',m==='full');document.body.classList.toggle('rp-mini',m==='mini');document.body.classList.toggle('rp-completo',m==='full')}
+function rpUI(){$('rp-play').classList.toggle('activo',!rpAudio.paused);$('rp-play').setAttribute('aria-label',rpAudio.paused?'Reproducir':'Pausar');$('rp-mute').classList.toggle('activo',rpAudio.muted);$('rp-mute').setAttribute('aria-pressed',rpAudio.muted?'true':'false');$('rp-mute').setAttribute('aria-label',rpAudio.muted?'Quitar silencio':'Silenciar')}
+function rpTime(){const d=rpAudio.duration,c=rpAudio.currentTime||0;$('rp-tiempo').textContent=rpFmt(c)+' / '+(isFinite(d)?rpFmt(d):'0:00');if(!rpSeeking){const pct=isFinite(d)&&d>0?Math.min(1000,c/d*1000):0;rpLine.value=pct;rpLine.style.setProperty('--pct',(pct/10)+'%')}}
+function rpPlay(){try{rpAudio.volume=rpVol();const pr=rpAudio.play();if(pr&&pr.catch)pr.catch(()=>{})}catch{}}
+function rpLoad(pos,autoplay){const n=rpOrder.length;rpIdx=((pos%n)+n)%n;const t=rpTracks[rpOrder[rpIdx]];rpAudio.src=t.src;$('rp-titulo').textContent=t.title;rpLoaded=true;rpLine.value=0;rpLine.style.setProperty('--pct','0%');$('rp-tiempo').textContent='0:00 / 0:00';rpAudio.volume=rpVol();if(autoplay)rpPlay();rpUI()}
+function rpNext(){if(!rpOrder.length)rpOrder=rpShuffle();if(rpIdx+1>=rpOrder.length){rpOrder=rpShuffle(rpOrder[rpIdx]);rpLoad(0,true)}else rpLoad(rpIdx+1,true)}
+function rpPrev(){if(!rpLoaded)return;if((rpAudio.currentTime||0)>3){rpAudio.currentTime=0;return}rpLoad(rpIdx-1,true)}
+function rpSip(){rpOn=true;rpAudio.muted=false;rpOrder=rpShuffle();rpMode('full');rpLoad(0,true)}
+function rpNope(){rpOn=true;rpAudio.muted=true;rpOrder=rpShuffle();rpMode('mini');rpUI()}
+function rpDuck(on){rpDucked=!!on;try{rpAudio.volume=rpVol()}catch{}}
+function rpSuspend(){rpWas=rpOn&&!rpAudio.paused;if(rpWas)rpAudio.pause()}
+function rpResume(){if(rpWas&&rpOn)rpPlay();rpWas=false}
+$('rp-mini').addEventListener('click',()=>{rpAudio.muted=false;rpMode('full');if(!rpLoaded)rpLoad(0,true);else rpPlay();rpUI()});
+$('rp-play').addEventListener('click',()=>{if(!rpLoaded){rpOrder=rpShuffle();rpLoad(0,true);return}if(rpAudio.paused)rpPlay();else rpAudio.pause()});
+$('rp-next').addEventListener('click',rpNext);
+$('rp-prev').addEventListener('click',rpPrev);
+$('rp-mute').addEventListener('click',()=>{rpAudio.muted=!rpAudio.muted;rpUI()});
+rpLine.addEventListener('input',()=>{rpSeeking=true;const d=rpAudio.duration,v=Number(rpLine.value);rpLine.style.setProperty('--pct',(v/10)+'%');if(isFinite(d))$('rp-tiempo').textContent=rpFmt(v/1000*d)+' / '+rpFmt(d)});
+rpLine.addEventListener('change',()=>{const d=rpAudio.duration;if(isFinite(d)&&d>0)rpAudio.currentTime=Number(rpLine.value)/1000*d;rpSeeking=false;rpTime()});
+['play','pause','volumechange'].forEach(e=>rpAudio.addEventListener(e,rpUI));
+['timeupdate','loadedmetadata','durationchange'].forEach(e=>rpAudio.addEventListener(e,rpTime));
+rpAudio.addEventListener('playing',()=>{rpErr=0});
+rpAudio.addEventListener('ended',rpNext);
+rpAudio.addEventListener('error',()=>{if(!rpLoaded)return;rpErr++;if(rpErr<rpOrder.length)rpNext();else{rpAudio.pause();$('rp-titulo').textContent='Sin audio disponible';rpUI()}});
 
 /* ===== Final del juego ===== */
 const SKIP={};
@@ -459,14 +729,14 @@ function buildExtraCredits(kind){const box=$('final-rollo2');box.innerHTML='';
  const item=(par,name,desc,price,src,gold,cls)=>{const d=document.createElement('div');d.className='cred-item';if(src){const im=document.createElement('img');im.className='cred-img '+(cls||'cred-skin')+(gold?' skin-dorada':'');im.alt='';im.onerror=()=>{im.onerror=()=>{im.onerror=null;im.src='imagen.png'};im.src=cls==='cred-icon'?'logro-click.png':'imagen.png'};im.src=src;d.append(im)}const n=document.createElement('strong');n.textContent=name;d.append(n);if(desc){const p=document.createElement('p');p.textContent=desc;d.append(p)}if(price){const q=document.createElement('p');q.className='cred-precio';q.textContent=price;d.append(q)}par.append(d)};
  let sc;
  if(kind==='upgrades'){sc=sec('Upgrades');upgrades.forEach(u=>item(sc,u.name,u.desc,'Precio: '+u.base+' monedas (sube con cada nivel)'))}
- else if(kind==='skins'){sc=sec('Skins');skins.forEach(k=>item(sc,k.name,k.desc,k.type==='shop'?'Precio: '+k.price+' monedas':k.type==='default'?'Gratis':k.type==='achievement'?'Premio por completar los logros normales':'Skin especial',k.src,k.id==='cat-gold'||k.id==='dog-gold'))}
+ else if(kind==='skins'){sc=sec('Skins');skins.filter(k=>k.type!=='secret'||state.ownedSkins.includes(k.id)).forEach(k=>item(sc,k.name,k.desc,k.type==='shop'?'Precio: '+k.price+' monedas':k.type==='default'?'Gratis':k.type==='achievement'?'Premio por completar los logros normales':'Skin secreta',k.src,k.id==='cat-gold'||k.id==='dog-gold'))}
  else if(kind==='prestige'){sc=sec('Prestige');prestigeGoals.forEach((g,i)=>item(sc,'Nivel '+(i+1),g.toLocaleString('es-MX')+' clics legitimos acumulados - multiplicador x'+(1+(i+1)*.12).toFixed(2)))}
  else{sc=sec('Hardest Achievements');['millones','deidad','pro-clicker','necesitas-dedo','armado','completo','agente','perfeccionista'].forEach(id=>{const a=achievementList.find(x=>x[0]===id);if(a)item(sc,a[1],a[2],'',achievementIcon(id),false,'cred-icon')})}}
 async function startEnding(replay){
  if(ending)return;
  ending=true;endSkip=false;skipOn=false;
  try{if(document.activeElement)document.activeElement.blur()}catch{}
- ['terminal','panel-logros','panel-config','ventana-creditos','panel-tienda','panel-stats','panel-prestigio'].forEach(closeModal);
+ ['terminal','panel-logros','panel-config','ventana-creditos','panel-tienda','panel-stats','panel-prestigio','panel-misiones'].forEach(closeModal);stopEvent123();rpSuspend();
  $('tarjeta-usuario').classList.remove('abierto');
  const root=$('pantalla-final'),txt=$('final-texto'),hint=$('final-aviso'),win=$('final-ventana'),roll=$('final-rollo'),win2=$('final-ventana2'),roll2=$('final-rollo2'),cat=$('final-gato');
  const gTit=$('gracias-titulo'),gBen=$('gracias-benja'),gMeg=$('gracias-megu'),c1=$('cierre-uno'),c2=$('cierre-dos');
@@ -532,7 +802,7 @@ async function startEnding(replay){
   await sleep(2300);
  }catch(err){console.error(err)}
  finally{
-  clearInterval(musicFade);try{audio.music.pause()}catch{}
+  rpResume();clearInterval(musicFade);try{audio.music.pause()}catch{}
   root.style.visibility='hidden';root.style.opacity='0';root.setAttribute('aria-hidden','true');root.style.display='none';
   cat.style.display='none';cat.onclick=null;skipOn=false;root.classList.remove('saltable');
   ending=false;refresh();
@@ -552,7 +822,7 @@ $('form-usuario').addEventListener('submit',e=>{e.preventDefault();state.user=$(
 $('cerrar-usuario').addEventListener('click',()=>$('tarjeta-usuario').classList.remove('abierto'));
 $('boton-secreto').addEventListener('click',()=>{terminalTaps.push(Date.now());terminalTaps=terminalTaps.filter(t=>Date.now()-t<5000);if(terminalTaps.length>=3){openTerminal();terminalTaps=[]}});
 $('form-terminal').addEventListener('submit',e=>{e.preventDefault();command($('entrada-comando').value);$('entrada-comando').value=''});$('cerrar-terminal').addEventListener('click',() => closeModal('terminal'));$('boton-nota').addEventListener('click',()=>$('lista-comandos').classList.toggle('oculto'));
-$('abrir-logros').addEventListener('click',()=>openModal('panel-logros'));$('abrir-config').addEventListener('click',()=>openModal('panel-config'));$('abrir-tienda').addEventListener('click',()=>openModal('panel-tienda'));$('abrir-stats').addEventListener('click',()=>openModal('panel-stats'));$('abrir-prestigio').addEventListener('click',()=>openModal('panel-prestigio'));document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+$('abrir-logros').addEventListener('click',()=>openModal('panel-logros'));$('abrir-config').addEventListener('click',()=>openModal('panel-config'));$('abrir-tienda').addEventListener('click',()=>openModal('panel-tienda'));$('abrir-stats').addEventListener('click',()=>openModal('panel-stats'));$('abrir-prestigio').addEventListener('click',()=>openModal('panel-prestigio'));$('abrir-misiones').addEventListener('click',()=>{openModal('panel-misiones');missKey='';renderMissions()});$('tab-diarias').addEventListener('click',()=>{missionTab='daily';missKey='';renderMissions()});$('tab-constantes').addEventListener('click',()=>{missionTab='life';missKey='';renderMissions()});document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
 $('config-anims').addEventListener('change',e=>{state.animations=e.target.checked;document.body.classList.toggle('sin-animaciones',!state.animations);persist()});$('config-sonidos').addEventListener('change',e=>{state.sounds=e.target.checked;persist()});
 $('reiniciar').addEventListener('click',()=>{if(confirm('¿Reiniciar los clics de esta partida? Las estadísticas históricas y los logros se conservan.')){state.clicks=0;state.legitClicks=0;state.resets++;refresh()}});
 $('reiniciar-logros').addEventListener('click',()=>{const antes=state.unlocked.length;checkAchievements();achKey='';renderAchievements();refresh();const n=state.unlocked.length-antes;$('nota-logros').textContent=n>0?`Logros recargados: ${n} recuperado${n===1?'':'s'}.`:'Logros recargados: todo en orden.'});
@@ -560,11 +830,12 @@ $('resetear-logros-full').addEventListener('click',()=>{if(!confirm('RESET TOTAL
 $('cambiar-modo').addEventListener('click',()=>{if(state.mode==='Casual'&&!state.battleUnlocked){notice('Batalla se desbloquea al llegar a 10,000 clics en total.');return}state.modeChosen=true;save('modeChosen',true);setMode(state.mode==='Casual'?'Batalla':'Casual')});
 $('hacer-prestigio').addEventListener('click',()=>{const goal=prestigeGoals[state.prestige];if(!goal||state.legitLifetime<goal)return;if(!confirm(`¿Ascender al prestigio ${state.prestige+1}? Se reinician los clics actuales y mejoras compradas, pero se conserva el historial legítimo.`))return;state.prestige++;state.clicks=0;state.legitClicks=0;state.coins=0;state.upgrades={};state.equipped=[];checkAchievements();refresh()});
 $('revertir-prestigio').addEventListener('click',()=>{if(!state.prestige)return;if(confirm('¿Revertir un nivel de prestigio? No recupera los clics ni las mejoras gastadas.')){state.prestige--;refresh()}});$('resetear-prestigio').addEventListener('click',()=>{if(confirm('¿Resetear todos tus niveles de prestigio? No recupera los clics ni mejoras gastadas.')){state.prestige=0;refresh()}});
-setInterval(()=>{const now=Date.now();recent=recent.filter(t=>now-t<1000);cps=recent.length;state.bestCps=Math.max(state.bestCps,cps);state.playSeconds+=1;if(equipped('auto')&&(state.upgrades.auto||0)>0){const gain=state.upgrades.auto;state.clicks+=gain;state.totalClicks+=gain;state.legitClicks+=gain;state.legitLifetime+=gain;addCoins(gain)}checkAchievements();refresh()},1000);
+setInterval(()=>{const now=Date.now();recent=recent.filter(t=>now-t<1000);cps=recent.length;state.bestCps=Math.max(state.bestCps,cps);state.playSeconds+=1;D().secs+=1;if(equipped('auto')&&(state.upgrades.auto||0)>0){const gain=Math.max(1,Math.floor(state.upgrades.auto*evMult()));state.clicks+=gain;state.totalClicks+=gain;state.legitClicks+=gain;state.legitLifetime+=gain;addCoins(gain)}checkAchievements();refresh()},1000);
 let progress=0,pageReady=document.readyState==='complete';
 window.addEventListener('load',()=>{pageReady=true});
 setTimeout(()=>{pageReady=true},6000);
-function startFlow(){
+function startFlow(){openModal('pregunta-musica')}
+function proceedFlow(){
  if(!state.modeChosen){openModal('selector-modo');return}
  gameStarted=true;
  if(state.mode==='Batalla')setMode('Batalla');
@@ -572,6 +843,7 @@ function startFlow(){
 }
 const loadTimer=setInterval(()=>{progress=Math.min(pageReady?100:95,progress+Math.floor(8+Math.random()*18));$('progreso-carga').style.width=progress+'%';$('texto-carga').textContent=`Cargando: web | Proceso: ${progress}%`;if(progress>=100){clearInterval(loadTimer);setTimeout(()=>{$('pantalla-carga').classList.add('carga-saliendo');document.body.classList.add('sitio-listo');setTimeout(()=>{$('pantalla-carga').classList.add('carga-oculta');startFlow()},850)},250)}},100);
 document.body.classList.toggle('sin-animaciones',!state.animations);if(state.user.toLowerCase()==='pepinillo')award('pepinillo');$('lista-comandos').innerHTML='<strong>Comandos disponibles</strong><p><code>help</code></p><p><code>shutdown</code></p><p><code>imgreedy</code></p><p><code>enemy</code></p><p><code>credits</code></p>';
+$('musica-si').addEventListener('click',()=>{closeModal('pregunta-musica');rpSip();proceedFlow()});$('musica-no').addEventListener('click',()=>{closeModal('pregunta-musica');rpNope();proceedFlow()});
 $('elegir-casual').addEventListener('click',()=>{closeModal('selector-modo');gameStarted=true;state.modeChosen=true;save('modeChosen',true);setMode('Casual');if(!state.user)$('tarjeta-usuario').classList.add('abierto')});$('elegir-batalla').addEventListener('click',()=>{if(!state.battleUnlocked)return;closeModal('selector-modo');gameStarted=true;state.modeChosen=true;save('modeChosen',true);setMode('Batalla');if(!state.user)$('tarjeta-usuario').classList.add('abierto')});
 refresh();
 })();
